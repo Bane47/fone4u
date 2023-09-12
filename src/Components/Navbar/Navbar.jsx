@@ -8,6 +8,8 @@ import '../Styles/Navbar.css';
 function MyNavbar() {
   const store = localStorage.UserDetail;
   const navigate = useNavigate();
+
+
   return (
     <div >
       <nav class="navbar navbar-expand-lg px-0 py-3 ">
@@ -19,9 +21,9 @@ function MyNavbar() {
             */}
       <Link className='text-decoration-none nav-item nav-link mx-2' to='/'>Fone4U</Link>   
       <Link className='text-decoration-none nav-item nav-link mx-2' to='/phones'>Phones</Link>
-      {store && (
+      {/* {store && (
                 <Link className='text-decoration-none nav-item nav-link mx-2' to='/dashboard'>Explore</Link>
-              )}
+              )} */}
    
             <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
@@ -44,13 +46,16 @@ function MyNavbar() {
                   <Link className='text-decoration-none border-0  nav-item nav-link mx-2' to="/login" > Login</Link>
                 </>
               )}
-              {store && (
+              {store && ( <>
                 <button className='text-decoration-none border-0  nav-item nav-link mx-2' onClick={() => {
                   localStorage.removeItem("UserDetail");
                   navigate('/login');
                   window.location.reload();
                 }}> Logout</button>
+
+                </>
               )}
+
                 </div>
             </div>
         </div>

@@ -1,0 +1,20 @@
+.circle-image {
+    width: 100px; 
+    height: 100px;
+    border-radius: 50%; 
+    object-fit: cover;
+  }
+  
+@media (max-width: 768px) {
+    .circle-image {
+      width: 80px; 
+      height: 80px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .circle-image {
+      width: 60px; 
+      height: 60px;
+    }
+  }

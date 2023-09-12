@@ -1,35 +1,75 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { Button, Modal, Table } from 'react-bootstrap'
-import MyModal, { App } from '../Modal/MyModal';
+import React, { useEffect, useState } from 'react';
+import { Button, Modal, Table } from 'react-bootstrap';
+import MyModal from '../Modal/MyModal';
 import { Link } from 'react-router-dom';
 
 const Manage = () => {
-  const [phonesData,setphonesData]=useState([]);
-  const [show, setShow] = useState(false);
-  const [id,setId] = useState();
+  const [phonesData, setPhonesData] = useState([]);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [selectedPhone, setSelectedPhone] = useState(null);
 
-  const handleClose = () => setShow(false);
-  const handleShow = (id) => { setId(id); setShow(true)};
+  const handleCloseEditModal = () => setShowEditModal(false);
+  const handleShowEditModal = (phone) => {
+    setSelectedPhone(phone);
+    setShowEditModal(true);
+  };
 
-useEffect(() => {
-  axios.get("http://localhost:3001/getPhones")
-    .then((res) => {
-      setphonesData(res.data);
-   
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}, []);
+  const handleDeleteModal = (id) => {
+    setSelectedPhone(id); // Store the selected phone ID in the state
+    setDeleteModal(true);
+  };
 
+  const handleDelete = async () => { // No need to pass the ID here
+    try {
+      await axios.delete(`http://localhost:3001/delete/${selectedPhone}`);
+      alert('Successfully deleted');
+      setDeleteModal(false);
+      fetchPhonesData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleEdit = async (updatedPhone) => {
+    try {
+      await axios.put(`http://localhost:3001/edit/${updatedPhone._id}`, updatedPhone);
+      alert('Successfully updated');
+      setShowEditModal(false);
+      fetchPhonesData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchPhonesData = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/getPhones');
+      setPhonesData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPhonesData();
+  }, []);
 
   return (
-    <div >
-        <Table responsive="sm" >
-        <thead >
-          <tr >
-            <th className='text-white'>S.No</th>
+    <div>
+      <div className='row container'>
+        <div className='col-lg-10 mb-2'>
+      <h1 className='text-white'>Manage Phones</h1>
+      </div>
+      <div className='col-lg-2'>
+       <Link to="/addphones" className=' text-decoration-none text-white mx-auto mt-1'><Button variant="info" className='rounded-5'> <i class="fa-solid fa-plus"></i>
+                </Button></Link>
+       </div>
+       </div>
+      <Table responsive="sm">
+        <thead>
+          <tr>
             <th className='text-white'>Name</th>
             <th className='text-white'>RAM</th>
             <th className='text-white'>Camera</th>
@@ -38,45 +78,67 @@ useEffect(() => {
             <th className='text-white'>Price</th>
             <th className='text-white'>Edit</th>
             <th className='text-white'>Delete</th>
-
           </tr>
         </thead>
         <tbody>
-        {phonesData.length > 0 && (
-          <>
-          {phonesData.map((data)=>(
-          <tr>
-            <td className='text-white'>{data.id}</td>
-            <td className='text-white'>{data.name}</td>
-      
-            <td className='text-white'>{data.ram}</td>
-          
-            <td className='text-white'>{data.camera}</td>
-            <td className='text-white'>{data.storage}</td>
-            <td className='text-white'>{data.display}</td>
-            <td className='text-white'>{data.price}</td>
-           
-            <td className='text-white'><Button variant="warning"  onClick={()=>{handleShow(data._id)}}><i class="fa-solid fa-pencil"></i></Button>{' '}</td>
-
-            <td className='text-white'><Button variant="danger"><i class="fa-solid fa-trash"></i></Button>{' '}</td>
-
-          </tr>
+          {phonesData.map((phone) => (
+            <tr key={phone._id}>
+              <td className='text-white'>{phone.name}</td>
+              <td className='text-white'>{phone.ram}</td>
+              <td className='text-white'>{phone.camera}</td>
+              <td className='text-white'>{phone.storage}</td>
+              <td className='text-white'>{phone.display}</td>
+              <td className='text-white'>{phone.price}</td>
+              <td>
+                <Button variant="warning" onClick={() => handleShowEditModal(phone)}>
+                  Edit
+                </Button>
+              </td>
+              <td>
+                <Button variant="danger" onClick={() => handleDeleteModal(phone._id)}>
+                  Delete
+                </Button>
+              </td>
+            </tr>
           ))}
-         
-          </>
-        )}  
-       
-        
-       <MyModal id={id} show={show} handleClose={handleClose}/>
         </tbody>
       </Table>
 
-      
-      <Link to="/addphones" className=' text-decoration-none text-white mx-auto mt-1'><h4 className='px-2 text-white'>Add </h4></Link>
+      {showEditModal && selectedPhone && (
+        <MyModal
+          show={showEditModal}
+          handleClose={handleCloseEditModal}
+          handleEdit={handleEdit}
+          phone={selectedPhone}
+        />
+      )}
 
-     
+      {deleteModal && selectedPhone && (
+        <DeleteModal
+          show={deleteModal}
+          handleClose={() => setDeleteModal(false)}
+          handleDelete={handleDelete}
+        />
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Manage
+const DeleteModal = ({ show, handleClose, handleDelete }) => (
+  <Modal show={show} onHide={handleClose}>
+    <Modal.Header closeButton>
+      <Modal.Title>Confirm Deletion</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>Are you sure you want to delete this phone record?</Modal.Body>
+    <Modal.Footer>
+      <Button variant="secondary" onClick={handleClose}>
+        Close
+      </Button>
+      <Button variant="danger" onClick={handleDelete}>
+        Delete
+      </Button>
+    </Modal.Footer>
+  </Modal>
+);
+
+export default Manage;

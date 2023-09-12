@@ -11,6 +11,7 @@ import SideBar from './Components/SideBar/SideBar';
 import Phones from './Components/Showcase/Phones';
 import Manage from './Components/Manage/Manage';
 import AddPhone from './Components/Manage/AddPhone';
+import Profile from './Components/Settings/Profile';
 
 
 function App() {
@@ -38,6 +39,8 @@ function App() {
           <Route path='/phones' element={<Phones />} />
           <Route path='/manage' element={<Manage />} />
           <Route path='/addphones' element={<AddPhone />} />
+          <Route path='/profile' element={<Profile />} />
+
         </Routes>
         </div>
         </div>

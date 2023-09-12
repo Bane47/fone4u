@@ -32,7 +32,11 @@ const AddPhone = () => {
             .then(result => {
                 console.log("Hekko ");
                 console.log(result)
-                
+            })
+            .then(()=>{
+                alert('Phone added successfully');
+            }).then(()=>{
+                window.location.reload();
             })
             .catch((err) => { console.log(err) })
 

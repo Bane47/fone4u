@@ -7,6 +7,7 @@ const SideBar = () => {
 
        <Link to="/phones" className=' text-decoration-none text-white'><h4 className='px-2'>Phones</h4></Link>
        <Link to="/manage" className=' text-decoration-none text-white'><h4 className='px-2'>Manage Phones</h4></Link>
+       <Link to="/profile" className=' text-decoration-none text-white'><h4 className='px-2'>Profile</h4></Link>
 
 
     </div>

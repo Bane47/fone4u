@@ -18,16 +18,14 @@ const [phonesData,setPhonesData] = useState([]);
           <>
           {phonesData.map((data)=>(
         <Card className='col-lg-3 col-md-2 col-sm-1 mx-1'>
-      <Card.Img variant="top" src="" />
+      <Card.Img variant="top"  src="https://images.unsplash.com/photo-1616348436168-de43ad0db179?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGlwaG9uZXxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80" />
       <Card.Body>
         <Card.Title>{data.name}</Card.Title>
-       
-      </Card.Body>
-      
-      <Card.Body>
-      
         <span>Price : {data.price}</span>
+
       </Card.Body>
+      
+      
     </Card>
     ))}
     </>
