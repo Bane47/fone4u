@@ -13,6 +13,7 @@ const [phonesData,setPhonesData] = useState([]);
   return (
     <div className='container mt-5'>
       <div className='row'>
+        <h1 className='text-white'>Phones</h1>
         
         {phonesData.length > 0 && (
           <>

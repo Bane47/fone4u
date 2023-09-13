@@ -22,7 +22,6 @@ function MyModal(props) {
       [field]: value,
     });
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const { name, processor, ram, battery, camera, storage, display, price } = formData;
@@ -38,22 +37,16 @@ function MyModal(props) {
         price,
       })
       .then((result) => {
-        console.log(formData);
-        console.log(result);
-        // Close the modal or perform any additional actions
-      }).then(()=>{
-        window.location.reload();
+        console.log('Response Data:', result.data);
+        props.handleClose(); 
+        window.location.reload(); 
       })
       .catch((err) => {
-        console.log(err);
+        console.error('Error:', err);
       });
   };
 
-  const deletePhone = () => {
-    axios.delete(`http://localhost:3001/delete/${props.id}`).then(() => {
-      // Close the modal or perform any additional actions
-    });
-  };
+
 
   useEffect(() => {
     console.log(props.phone); // Add this line
@@ -96,7 +89,7 @@ function MyModal(props) {
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlInput1">
             <div className="row">
-              <label className="col-lg-6 col-md-6 col-sm-6 mt-2">Image</label>
+              <label className="col-lg-6 col-md-6 col-sm-6 mt-2">Processor</label>
               <div className="col-lg-5 col-md-5 col-sm-5 m-2">
                 <Form.Control
                   type="file"

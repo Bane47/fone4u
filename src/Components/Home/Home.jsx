@@ -44,45 +44,7 @@ const Home = () => {
     </section>
 
 
-    <section class="cards">
-        <div class="container">
-            <div class="row justify-content-sm-center">
-                <div class="col-sm-3">
-                    <div class="card text-center card-border" id="card-border">
-                        <div class="card-body">
-                            <i class="fa-solid fa-mobile-screen"></i>
-                            <p>lorem</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-3"> 
-                    <div class="card text-center card-border" id="card-border">
-                        <div class="card-body">
-                            <i class="fa-solid fa-mobile-screen"></i>
-                            <p>lorem</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-3"> 
-                    <div class="card text-center card-border" id="card-border">
-                        <div class="card-body">
-                            <i class="fa-solid fa-mobile-screen"></i>
-                            <p>lorem</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="card text-center card-border" id="card-border">
-                        <div class="card-body">
-                            <i class="fa-solid fa-mobile-screen"></i>
-                            <p>lorem</p>
-                        </div>
-                    </div>
-                </div>
-           
-            </div>
-        </div>
-    </section>    
+   
         </div>
     </div>
   )

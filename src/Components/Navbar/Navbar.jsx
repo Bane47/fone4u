@@ -20,7 +20,6 @@ function MyNavbar() {
             </a>
             */}
       <Link className='text-decoration-none nav-item nav-link mx-2' to='/'>Fone4U</Link>   
-      <Link className='text-decoration-none nav-item nav-link mx-2' to='/phones'>Phones</Link>
       {/* {store && (
                 <Link className='text-decoration-none nav-item nav-link mx-2' to='/dashboard'>Explore</Link>
               )} */}
@@ -51,6 +50,7 @@ function MyNavbar() {
                   localStorage.removeItem("UserDetail");
                   navigate('/login');
                   window.location.reload();
+                  alert("Logging out!")
                 }}> Logout</button>
 
                 </>

@@ -22,25 +22,32 @@ const AddPhone = () => {
     };
 
 
-
     const handleSubmit = (e) => {
-
         e.preventDefault();
-
-        const {name,processor,ram,battery,camera,storage,display,price} = formData;
-        axios.post('http://localhost:3001/post', { name,processor,ram,battery,camera,storage,display,price })
-            .then(result => {
-                console.log("Hekko ");
-                console.log(result)
+    
+        const { name, processor, ram, battery, camera, storage, display, price } = formData;
+    
+        axios
+            .post('http://localhost:3001/post', {
+                name,
+                processor,
+                ram,
+                battery,
+                camera,
+                storage,
+                display,
+                price,
             })
-            .then(()=>{
+            .then((response) => {
+                console.log('Response:', response.data);
                 alert('Phone added successfully');
-            }).then(()=>{
                 window.location.reload();
             })
-            .catch((err) => { console.log(err) })
-
-    }
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    };
+    
 
 
   return (
@@ -57,7 +64,7 @@ const AddPhone = () => {
                     </Form.Group>
                     <Form.Group controlId="exampleForm.ControlInput1">
                         <div className='row'>
-                            <label  className='col-lg-6 col-md-6 col-sm-6 mt-2'>Image</label>
+                            <label  className='col-lg-6 col-md-6 col-sm-6 mt-2'>Processor</label>
                             <div className="col-lg-5 col-md-5 col-sm-5 m-2">
                                 <Form.Control type="text"  placeholder="Enter the processor name" value={formData.processor} onChange={(e)=>{updateFormData('processor',e.target.value)}} />
                             </div>

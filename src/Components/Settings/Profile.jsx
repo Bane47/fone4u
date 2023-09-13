@@ -3,19 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import EditModel from '../Modal/editModel'
+import '../Styles/profile.css'
 
 const Profile = () => {
   const user = localStorage.getItem('UserDetail');
   const navigate = useNavigate();
   const userObj = JSON.parse(user);
   const [userDetails, setUserDetails] = useState(null);
+  const [selectedUser,setSelectedUser] = useState();
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
-  const handleProfileEdit = () => {
-    // Handle profile edit logic here
+  const handleProfileEdit = (id) => {
+    setSelectedUser(id)
+    setShow(true)
   };
 
   useEffect(() => {
@@ -49,11 +51,13 @@ const Profile = () => {
         </div>
       )}
       <div>
-        <Button className='col-lg-3 mt-5' onClick={handleShow}>
+        <Button className='col-lg-3 mt-5' onClick={()=>{handleProfileEdit(userDetails._id);console.log(userDetails._id)}}>
           Edit Profile <i className="fa-solid fa-pencil"> </i>
         </Button>
       </div>
-      <EditModel show={show} onHide={handleClose} />
+      {selectedUser && (
+      <EditModel show={show} onHide={handleClose} user={userDetails}  />
+      )}
     </div>
   );
 };

@@ -3,12 +3,27 @@ import React, { useEffect, useState } from 'react';
 import { Button, Modal, Table } from 'react-bootstrap';
 import MyModal from '../Modal/MyModal';
 import { Link } from 'react-router-dom';
+import Pagination from 'react-bootstrap/Pagination';
+
 
 const Manage = () => {
   const [phonesData, setPhonesData] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedPhone, setSelectedPhone] = useState(null);
+
+  //for pagination
+ const [num,setNumber] = useState();
+
+let active = 2
+  let items = [];
+for (let number = 1; number <= num/5; number++) {
+  items.push(
+    <Pagination.Item key={number} active={number === active}>
+      {number}
+    </Pagination.Item>,
+  );
+}
 
   const handleCloseEditModal = () => setShowEditModal(false);
   const handleShowEditModal = (phone) => {
@@ -47,6 +62,7 @@ const Manage = () => {
     try {
       const response = await axios.get('http://localhost:3001/getPhones');
       setPhonesData(response.data);
+      setNumber(response.data.length)
     } catch (error) {
       console.error(error);
     }
@@ -81,6 +97,7 @@ const Manage = () => {
           </tr>
         </thead>
         <tbody>
+          
           {phonesData.map((phone) => (
             <tr key={phone._id}>
               <td className='text-white'>{phone.name}</td>
@@ -103,7 +120,7 @@ const Manage = () => {
           ))}
         </tbody>
       </Table>
-
+      
       {showEditModal && selectedPhone && (
         <MyModal
           show={showEditModal}
@@ -119,7 +136,11 @@ const Manage = () => {
           handleClose={() => setDeleteModal(false)}
           handleDelete={handleDelete}
         />
-      )}
+      )}<div className='row mt-5 pt-5'>
+        <div className='col-12 d-flex justify-content-center'> 
+      <Pagination className=''>{items}</Pagination>
+      </div>
+      </div>
     </div>
   );
 };

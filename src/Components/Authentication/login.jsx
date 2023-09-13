@@ -17,18 +17,20 @@ const Login = () => {
 
         axios.post('http://localhost:3001/login', { email, password })
             .then(result => {
-                
+                console.log(result  )
                 if (result.data === "success") {
 
                 const jsonData = JSON.parse(result.config.data);
                 const jsonFormatter = JSON.stringify(jsonData,null,2);
-                    localStorage.setItem('UserDetail',jsonFormatter)
-                    navigate('/dashboard');
+                    localStorage.setItem('UserDetail',jsonFormatter);
+
+                    navigate('/');
                     window.location.reload();
+                    alert("Logged in Successful :)")
 
                 }
             })
-            .catch((err) => { console.log(err) })
+            .catch((err) => { console.log(err); alert("Login failed :(") })
 
     }
 
