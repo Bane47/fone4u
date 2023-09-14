@@ -3,6 +3,8 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { Form } from 'react-bootstrap';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function EditModel({ user, show, onHide }) {
   const [formData, setFormData] = useState({
@@ -13,8 +15,10 @@ function EditModel({ user, show, onHide }) {
     id: user._id
   });
   const [oldPassword, setOldPassword] = useState('');
-  const [password, setNewPassword] = useState('');
+  const [newPassword,setNewPassword] = useState('')
   const [changePassword, setChangePassword] = useState(false);
+  const [confirmPassword,setConfirmPassword] = useState('');
+  const navigate = useNavigate()
 
   const updatedFormData = (key, value) => {
     setFormData({
@@ -37,7 +41,8 @@ function EditModel({ user, show, onHide }) {
         console.log(result);
       })
       .then(() => {
-        alert("Successfully edited");
+        toast.success("Successfully edited")
+        setNewPassword('');
         window.location.reload();
       })
       .catch((err) => {
@@ -48,6 +53,8 @@ function EditModel({ user, show, onHide }) {
   const handleChangePassword = () => {
     const { name, email, phone, id, password } = formData;
 
+    console.log("This is the confirm : ",confirmPassword)
+
     axios
       .put(`http://localhost:3001/change-Password/${id}`, {
         oldPassword,
@@ -56,9 +63,9 @@ function EditModel({ user, show, onHide }) {
         email
       })
       .then((result) => {
-        setNewPassword('');
         console.log(result);
-        alert("Successfully changed the password")
+        toast.success("Successfully changed the password");
+        navigate('/profile');        
       })
       .catch((err) => {
         console.log(err);
@@ -74,12 +81,14 @@ function EditModel({ user, show, onHide }) {
               <Modal.Title>Edit Profile</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+            <div style={{ maxHeight: '400px', overflowY: 'auto' , overflowX:'hidden' }}>
+
               <Form onSubmit={handleSubmit}>
                 {!changePassword && (
                   <>
                     <Form.Group >
                       <div className="row">
-                        <label className="col-lg-6 col-md-6 col-sm-6 mt-2">Name</label>
+                        <label className="col-lg-6 col-md-6 col-sm-6 mt-2 text-black">Name</label>
                         <div className="col-lg-5 col-md-5 col-sm-5 m-2">
                           <Form.Control
                             type="text"
@@ -91,23 +100,10 @@ function EditModel({ user, show, onHide }) {
                         </div>
                       </div>
                     </Form.Group>
+                   
                     <Form.Group >
                       <div className="row">
-                        <label className="col-lg-6 col-md-6 col-sm-6 mt-2">Email</label>
-                        <div className="col-lg-5 col-md-5 col-sm-5 m-2">
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter the email"
-                            name="email"
-                            value={formData.email}
-                            onChange={(e) => updatedFormData('email', e.target.value)}
-                          />
-                        </div>
-                      </div>
-                    </Form.Group>
-                    <Form.Group >
-                      <div className="row">
-                        <label className="col-lg-6 col-md-6 col-sm-6 mt-2">Phone </label>
+                        <label className="col-lg-6 col-md-6 col-sm-6 mt-2 text-black">Phone </label>
                         <div className="col-lg-5 col-md-5 col-sm-5 m-2">
                           <Form.Control
                             type="text"
@@ -125,10 +121,10 @@ function EditModel({ user, show, onHide }) {
                   <>
                     <Form.Group >
                       <div className="row">
-                        <label className="col-lg-6 col-md-6 col-sm-6 mt-2">Old Password </label>
+                        <label className="col-lg-6 col-md-6 col-sm-6 mt-2 text-black">Old Password </label>
                         <div className="col-lg-5 col-md-5 col-sm-5 m-2">
                           <Form.Control
-                            type="text"
+                            type="password"
                             placeholder="Enter the old password "
                             name="oldPassword"
                             onChange={(e) => setOldPassword(e.target.value)}
@@ -138,13 +134,26 @@ function EditModel({ user, show, onHide }) {
                     </Form.Group>
                     <Form.Group >
                       <div className="row">
-                        <label className="col-lg-6 col-md-6 col-sm-6 mt-2">New Password </label>
+                        <label className="col-lg-6 col-md-6 col-sm-6 mt-2 text-black">New Password </label>
                         <div className="col-lg-5 col-md-5 col-sm-5 m-2">
                           <Form.Control
-                            type="text"
+                            type="password"
                             placeholder="Enter the new password"
                             name="newPassword"
                             onChange={(e) => setNewPassword(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                    </Form.Group>
+                    <Form.Group >
+                      <div className="row">
+                        <label className="col-lg-6 col-md-6 col-sm-6 mt-2 text-black">Confirm Password </label>
+                        <div className="col-lg-5 col-md-5 col-sm-5 m-2">
+                          <Form.Control
+                            type="password"
+                            placeholder="Confirm password"
+                            name="confirmPassword"
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                           />
                         </div>
                       </div>
@@ -180,10 +189,11 @@ function EditModel({ user, show, onHide }) {
                   </div>
                 )}
               </Form>
+              </div>
             </Modal.Body>
 
           </Modal>
-
+          <ToastContainer />
         </>
       )}
     </>

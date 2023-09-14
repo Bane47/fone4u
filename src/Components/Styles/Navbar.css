@@ -1,5 +1,7 @@
 @import url(https://unpkg.com/@webpixels/css@1.0/dist/index.css);
-@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Text:wght@600;700;800;900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Text:wght@600;700;800;900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&family=Quicksand&display=swap');
+
 
 body {
     width: 100%;
@@ -9,7 +11,8 @@ body {
     overflow-x: hidden;
     /* overflow-y: hidden; */
     background: linear-gradient(to right, #010E27, #022449, #010E28);
-    font-family: 'Big Shoulders Text', cursive;
+    font-family: 'Poppins', sans-serif;
+    font-family: 'Quicksand', sans-serif;
 }
 
 video {
@@ -22,12 +25,14 @@ video {
 }
 
 .nav-item {
-    color: #cdf583 !important;
+    color: black !important;
+    font-weight: bolder;
+    font-size: larger;
 
 }
 
 .nav-item:hover {
-    color: #88C63E !important;
+    color: #ffffff !important;
 }
 
 #register {
@@ -118,7 +123,9 @@ video {
 }
 
 
-
+.myNav{
+    background-color: #88C63E;
+}
 
 
 

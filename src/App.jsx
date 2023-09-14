@@ -25,12 +25,12 @@ function App() {
         
 <div className='row '>
   {isLogged ? (
-  <div className='col-lg-2 col-md-2 col-sm-3 col-xs-1'>
+  <div className='col-12 col-sm-3 col-lg-2'>
         <SideBar />
         </div>
         )
-        :(<><div className='col-lg-1 col-md-1 col-sm-1'></div></>)}
-<div className='col-lg-10 col-sm-10 col-md-1'>
+        :(<><div className='col-12'></div></>)}
+<div className='col-12 col-sm-9 col-lg-10 overflow-hidden'>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/register' element={<Register />} />

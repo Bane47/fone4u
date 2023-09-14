@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 function MyModal(props) {
     const [formData, setFormData] = useState({
@@ -22,6 +24,8 @@ function MyModal(props) {
       [field]: value,
     });
   };
+  const notify = () => toast("Wow so easy!");
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const { name, processor, ram, battery, camera, storage, display, price } = formData;
@@ -72,6 +76,8 @@ function MyModal(props) {
         <Modal.Title>Update Phone Details</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+      <div style={{ maxHeight: '400px', overflowY: 'auto' , overflowX:'hidden' }}>
+
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="exampleForm.ControlInput1">
             <div className="row">
@@ -92,11 +98,11 @@ function MyModal(props) {
               <label className="col-lg-6 col-md-6 col-sm-6 mt-2">Processor</label>
               <div className="col-lg-5 col-md-5 col-sm-5 m-2">
                 <Form.Control
-                  type="file"
-                  accept=".jpeg,.png,.jpg,.webp"
+                  type="text"
                   name="processor"
+                  value={formData.processor}
                   placeholder="Enter the processor name"
-                />
+                />{console.log(formData)}
               </div>
             </div>
            {console.log(props.phone._id)}
@@ -186,10 +192,13 @@ function MyModal(props) {
               </div>
             </div>
           </Form.Group>
-          <button className="btn btn-primary mt-4 mb-5 mx-auto" type="submit">
+          <ToastContainer />
+          <button className="btn btn-primary mt-4 mb-5 mx-auto" type="submit" onClick={notify}>
             Submit!
           </button>
+         
         </Form>
+        </div>
       </Modal.Body>
      
     </Modal>

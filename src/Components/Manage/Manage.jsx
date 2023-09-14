@@ -4,26 +4,18 @@ import { Button, Modal, Table } from 'react-bootstrap';
 import MyModal from '../Modal/MyModal';
 import { Link } from 'react-router-dom';
 import Pagination from 'react-bootstrap/Pagination';
-
+import AddModel from '../Modal/AddModel';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Manage = () => {
   const [phonesData, setPhonesData] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedPhone, setSelectedPhone] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const phonesPerPage = 3; // Number of phones to display per page
+  const [showAddModel,setShowAddModel] = useState(false);
 
-  //for pagination
- const [num,setNumber] = useState();
-
-let active = 2
-  let items = [];
-for (let number = 1; number <= num/5; number++) {
-  items.push(
-    <Pagination.Item key={number} active={number === active}>
-      {number}
-    </Pagination.Item>,
-  );
-}
 
   const handleCloseEditModal = () => setShowEditModal(false);
   const handleShowEditModal = (phone) => {
@@ -32,17 +24,26 @@ for (let number = 1; number <= num/5; number++) {
   };
 
   const handleDeleteModal = (id) => {
-    setSelectedPhone(id); // Store the selected phone ID in the state
+    setSelectedPhone(id);
     setDeleteModal(true);
   };
 
-  const handleDelete = async () => { // No need to pass the ID here
+const handleShowAddModel=()=>{
+  setShowAddModel(true)
+}
+const handleCloseAddModel=()=>{
+  setShowAddModel(false)
+}
+
+  const handleDelete = async () => {
     try {
       await axios.delete(`http://localhost:3001/delete/${selectedPhone}`);
-      alert('Successfully deleted');
+      toast.success("Successfully deleted")
       setDeleteModal(false);
       fetchPhonesData();
     } catch (error) {
+      toast.error("Error in deleting phone")
+
       console.error(error);
     }
   };
@@ -50,10 +51,13 @@ for (let number = 1; number <= num/5; number++) {
   const handleEdit = async (updatedPhone) => {
     try {
       await axios.put(`http://localhost:3001/edit/${updatedPhone._id}`, updatedPhone);
-      alert('Successfully updated');
+      toast.success("Successfully Updated")
+
       setShowEditModal(false);
       fetchPhonesData();
     } catch (error) {
+      toast.error("Error in updating phone")
+
       console.error(error);
     }
   };
@@ -62,27 +66,50 @@ for (let number = 1; number <= num/5; number++) {
     try {
       const response = await axios.get('http://localhost:3001/getPhones');
       setPhonesData(response.data);
-      setNumber(response.data.length)
     } catch (error) {
       console.error(error);
     }
   };
 
+
+
+const handlePreviousPage = () => {
+  if (currentPage > 1) {
+    setCurrentPage(currentPage - 1);
+  }
+};
+
+const handleNextPage = () => {
+  if (currentPage < Math.ceil(phonesData.length / phonesPerPage)) {
+    setCurrentPage(currentPage + 1);
+  }
+};
   useEffect(() => {
     fetchPhonesData();
   }, []);
 
+  // Calculate the indexes for the current page
+  const indexOfLastPhone = currentPage * phonesPerPage;
+  const indexOfFirstPhone = indexOfLastPhone - phonesPerPage;
+  const currentPhones = phonesData.slice(indexOfFirstPhone, indexOfLastPhone);
+
+  // Change the current page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
-    <div>
-      <div className='row container'>
+    <div >
+      <ToastContainer />
+      <div className='row container '>
         <div className='col-lg-10 mb-2'>
-      <h1 className='text-white'>Manage Phones</h1>
+          <h1 className='text-white'>Manage Phones</h1>
+        </div>
+        <div className='col-lg-2'>
+          {/* <Link to="/addphones" className=' text-decoration-none text-white mx-auto mt-1'> */}
+            <Button variant="info" className='rounded-5' onClick={handleShowAddModel}> <i class="fa-solid fa-plus"></i></Button>
+          {/* </Link> */}
+          <AddModel show={showAddModel} handleClose={handleCloseAddModel}/>
+        </div>
       </div>
-      <div className='col-lg-2'>
-       <Link to="/addphones" className=' text-decoration-none text-white mx-auto mt-1'><Button variant="info" className='rounded-5'> <i class="fa-solid fa-plus"></i>
-                </Button></Link>
-       </div>
-       </div>
       <Table responsive="sm">
         <thead>
           <tr>
@@ -97,8 +124,7 @@ for (let number = 1; number <= num/5; number++) {
           </tr>
         </thead>
         <tbody>
-          
-          {phonesData.map((phone) => (
+          {currentPhones.map((phone) => (
             <tr key={phone._id}>
               <td className='text-white'>{phone.name}</td>
               <td className='text-white'>{phone.ram}</td>
@@ -120,7 +146,22 @@ for (let number = 1; number <= num/5; number++) {
           ))}
         </tbody>
       </Table>
-      
+
+      <div className='row mt-5 pt-5'>
+  <div className='col-12 d-flex justify-content-center '>
+    <Pagination>
+      <Pagination.Prev onClick={handlePreviousPage} />
+      {Array.from({ length: Math.ceil(phonesData.length / phonesPerPage) }).map((_, index) => (
+        <Pagination.Item key={index} active={index + 1 === currentPage} onClick={() => paginate(index + 1)}>
+          <p className='text-black'> {index + 1}</p>
+        </Pagination.Item>
+      ))}
+      <Pagination.Next onClick={handleNextPage} />
+    </Pagination>
+  </div>
+</div>
+
+
       {showEditModal && selectedPhone && (
         <MyModal
           show={showEditModal}
@@ -136,11 +177,7 @@ for (let number = 1; number <= num/5; number++) {
           handleClose={() => setDeleteModal(false)}
           handleDelete={handleDelete}
         />
-      )}<div className='row mt-5 pt-5'>
-        <div className='col-12 d-flex justify-content-center'> 
-      <Pagination className=''>{items}</Pagination>
-      </div>
-      </div>
+      )}
     </div>
   );
 };

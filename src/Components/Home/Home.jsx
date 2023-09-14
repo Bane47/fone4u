@@ -19,8 +19,8 @@ const Home = () => {
 
     <section class="banner-content">
         <div class="container">
-            <div class="row align-items-center justify-content-between">
-                <div class="col-sm-4" id="f-col">
+            <div class="row align-items-center justify-content-between ">
+                <div class="col-sm-4 text-start" id="f-col">
                     <p>Handheld tech wonders in miniature</p>
                     <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quibusdam necessitatibus natus, sint
                         magni, harum nisi repellendus quam magnam quasi alias quia? Autem, labore! Incidunt, vitae
