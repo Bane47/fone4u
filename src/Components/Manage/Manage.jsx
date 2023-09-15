@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, Table } from 'react-bootstrap';
+import { Button, Form, Modal, Table } from 'react-bootstrap';
 import MyModal from '../Modal/MyModal';
 import { Link } from 'react-router-dom';
 import Pagination from 'react-bootstrap/Pagination';
@@ -14,8 +14,8 @@ const Manage = () => {
   const [selectedPhone, setSelectedPhone] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const phonesPerPage = 3; // Number of phones to display per page
-  const [showAddModel,setShowAddModel] = useState(false);
-
+  const [showAddModel, setShowAddModel] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleCloseEditModal = () => setShowEditModal(false);
   const handleShowEditModal = (phone) => {
@@ -28,22 +28,22 @@ const Manage = () => {
     setDeleteModal(true);
   };
 
-const handleShowAddModel=()=>{
-  setShowAddModel(true)
-}
-const handleCloseAddModel=()=>{
-  setShowAddModel(false)
-}
+  const handleShowAddModel = () => {
+    setShowAddModel(true)
+  };
+
+  const handleCloseAddModel = () => {
+    setShowAddModel(false)
+  };
 
   const handleDelete = async () => {
     try {
       await axios.delete(`http://localhost:3001/delete/${selectedPhone}`);
-      toast.success("Successfully deleted")
+      toast.success("Successfully deleted");
       setDeleteModal(false);
       fetchPhonesData();
     } catch (error) {
-      toast.error("Error in deleting phone")
-
+      toast.error("Error in deleting phone");
       console.error(error);
     }
   };
@@ -51,13 +51,11 @@ const handleCloseAddModel=()=>{
   const handleEdit = async (updatedPhone) => {
     try {
       await axios.put(`http://localhost:3001/edit/${updatedPhone._id}`, updatedPhone);
-      toast.success("Successfully Updated")
-
+      toast.success("Successfully Updated");
       setShowEditModal(false);
       fetchPhonesData();
     } catch (error) {
-      toast.error("Error in updating phone")
-
+      toast.error("Error in updating phone");
       console.error(error);
     }
   };
@@ -71,19 +69,18 @@ const handleCloseAddModel=()=>{
     }
   };
 
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(filteredPhonesData.length / phonesPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
-const handlePreviousPage = () => {
-  if (currentPage > 1) {
-    setCurrentPage(currentPage - 1);
-  }
-};
-
-const handleNextPage = () => {
-  if (currentPage < Math.ceil(phonesData.length / phonesPerPage)) {
-    setCurrentPage(currentPage + 1);
-  }
-};
   useEffect(() => {
     fetchPhonesData();
   }, []);
@@ -91,23 +88,42 @@ const handleNextPage = () => {
   // Calculate the indexes for the current page
   const indexOfLastPhone = currentPage * phonesPerPage;
   const indexOfFirstPhone = indexOfLastPhone - phonesPerPage;
-  const currentPhones = phonesData.slice(indexOfFirstPhone, indexOfLastPhone);
+  const filteredPhonesData = phonesData.filter((phone) =>
+    phone.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  const currentPhones = filteredPhonesData.slice(indexOfFirstPhone, indexOfLastPhone);
 
   // Change the current page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div >
+    <div className='mt-4'>
       <ToastContainer />
+
+      <div className='row col-sm-2 mx-2 ms-auto mb-2'>
+        <div className='col-sm-2 mt-1'>
+          <i className="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <div className='col-sm-10'>
+          <Form.Control
+            type="text"
+            placeholder="Search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            size="sm"
+          />
+        </div>
+      </div>
+
       <div className='row container '>
         <div className='col-lg-10 mb-2'>
           <h1 className='text-white'>Manage Phones</h1>
         </div>
         <div className='col-lg-2'>
-          {/* <Link to="/addphones" className=' text-decoration-none text-white mx-auto mt-1'> */}
-            <Button variant="info" className='rounded-5' onClick={handleShowAddModel}> <i class="fa-solid fa-plus"></i></Button>
-          {/* </Link> */}
-          <AddModel show={showAddModel} handleClose={handleCloseAddModel}/>
+          <Button variant="info" className='rounded-5' onClick={handleShowAddModel}>
+            <i className="fa-solid fa-plus"></i>
+          </Button>
+          <AddModel show={showAddModel} handleClose={handleCloseAddModel} />
         </div>
       </div>
       <Table responsive="sm">
@@ -148,19 +164,18 @@ const handleNextPage = () => {
       </Table>
 
       <div className='row mt-5 pt-5'>
-  <div className='col-12 d-flex justify-content-center '>
-    <Pagination>
-      <Pagination.Prev onClick={handlePreviousPage} />
-      {Array.from({ length: Math.ceil(phonesData.length / phonesPerPage) }).map((_, index) => (
-        <Pagination.Item key={index} active={index + 1 === currentPage} onClick={() => paginate(index + 1)}>
-          <p className='text-black'> {index + 1}</p>
-        </Pagination.Item>
-      ))}
-      <Pagination.Next onClick={handleNextPage} />
-    </Pagination>
-  </div>
-</div>
-
+        <div className='col-12 d-flex justify-content-center '>
+          <Pagination>
+            <Pagination.Prev onClick={handlePreviousPage} />
+            {Array.from({ length: Math.ceil(filteredPhonesData.length / phonesPerPage) }).map((_, index) => (
+              <Pagination.Item key={index} active={index + 1 === currentPage} onClick={() => paginate(index + 1)}>
+                <p className='text-black'> {index + 1}</p>
+              </Pagination.Item>
+            ))}
+            <Pagination.Next onClick={handleNextPage} />
+          </Pagination>
+        </div>
+      </div>
 
       {showEditModal && selectedPhone && (
         <MyModal

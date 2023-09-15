@@ -13,6 +13,7 @@ body {
     background: linear-gradient(to right, #010E27, #022449, #010E28);
     font-family: 'Poppins', sans-serif;
     font-family: 'Quicksand', sans-serif;
+    
 }
 
 video {
@@ -25,14 +26,14 @@ video {
 }
 
 .nav-item {
-    color: black !important;
+    color: white !important;
     font-weight: bolder;
     font-size: larger;
 
 }
 
 .nav-item:hover {
-    color: #ffffff !important;
+    color: yellow !important;
 }
 
 #register {
@@ -124,7 +125,12 @@ video {
 
 
 .myNav{
-    background-color: #88C63E;
+    /* background: #0575E6;  fallback for old browsers */
+    /* background: -webkit-linear-gradient(to right, #021B79, #0575E6); */
+      /* Chrome 10-25, Safari 5.1-6 */
+    background-image: linear-gradient(to bottom, rgba(255, 0, 0, 0) 100%);
+   
+    
 }
 
 

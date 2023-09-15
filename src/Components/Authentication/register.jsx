@@ -133,7 +133,7 @@ const Register = () => {
                     </Form.Group>
 
                     <button className='btn btn-primary mb-5' type='submit'>Submit</button>
-                    <p>Already have an account? <Link to="/login" className='text-decoration-none'>Login!</Link></p>
+                    <p className='mb-5'>Already have an account? <Link to="/login" className='text-decoration-none'>Login!</Link></p>
                 </Form>
             </Card>
         </div>

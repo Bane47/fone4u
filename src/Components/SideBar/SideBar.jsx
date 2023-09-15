@@ -47,7 +47,7 @@ const SideBar = () => {
   const user = JSON.parse(localStorage.getItem("UserDetail"));
 
   return (
-    <div className="sidebar myback  min-vh-100">
+    <div className="sidebar myback  min-vh-100 bg-black">
    
       <ul>
         <li>

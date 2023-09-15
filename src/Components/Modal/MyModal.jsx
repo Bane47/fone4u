@@ -24,7 +24,7 @@ function MyModal(props) {
       [field]: value,
     });
   };
-  const notify = () => toast("Wow so easy!");
+  const notify = () => toast.success("Successfully edited");
 
   const handleSubmit = (e) => {
     e.preventDefault();
