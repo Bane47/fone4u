@@ -15,7 +15,7 @@ const Register = () => {
     const navigate = useNavigate();
     const isLogged = localStorage.getItem("UserDetail");
 
-    const emailRegEx = /^[A-Za-z0-9]+@gmail.com$/;
+    const emailRegEx = /^[A-Za-z0-9.]+@gmail.com$/;
     const passRegEx = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/;
     const phoneRegEx = /^[6-9]{1}[0-9]{9}$/;
 

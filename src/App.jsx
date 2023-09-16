@@ -13,6 +13,7 @@ import Manage from './Components/Manage/Manage';
 import AddPhone from './Components/Manage/AddPhone';
 import Profile from './Components/Settings/Profile';
 import ForgotPassword from './Components/ForgotPassword/ForgotPassword';
+import ResetPassword from './Components/ResetPassword/ResetPassword';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
                 <Route path='/addphones' element={<AddPhone />} />
                 <Route path='/profile' element={<Profile />} />
                 <Route path='/ForgotPassword' element={<ForgotPassword />} />
+                <Route path='/password-reset/:id/:token' element={<ResetPassword />} />
               </Routes>
             </div>
           </div>

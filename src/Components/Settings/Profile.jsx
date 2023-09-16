@@ -9,6 +9,7 @@ const Profile = () => {
   const user = localStorage.getItem('UserDetail');
   const navigate = useNavigate();
   const userObj = JSON.parse(user);
+  console.log(userObj)
   const [userDetails, setUserDetails] = useState(null);
   const [selectedUser,setSelectedUser] = useState();
   const [show, setShow] = useState(false);
@@ -25,7 +26,7 @@ const Profile = () => {
       navigate('/');
     } else {
       axios
-        .get(`http://localhost:3001/getUser/?email=${userObj.email}`)
+        .get(`http://localhost:3001/getUser/?email=${userObj.userEmail}`)
         .then((response) => {
           setUserDetails(response.data);
         });

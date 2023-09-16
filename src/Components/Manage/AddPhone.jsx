@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Form } from 'react-bootstrap'
 
 const AddPhone = () => {
-    const [formData,setFormData]=useState({
+    const [formData,setFormData] = useState({
         name:'',
         processor:'',
         ram:'',
@@ -52,7 +52,7 @@ const AddPhone = () => {
 
   return (
     <div className='container text-white'>
-        <h1 className='m-3 nav-item'>Add Phone</h1>
+            <h1 className='m-3 nav-item'>Add Phone</h1>
         <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="exampleForm.ControlInput1">
                         <div className='row'>

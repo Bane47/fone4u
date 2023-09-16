@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../Styles/login.css';
+import Cookies from 'js-cookie'
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -14,32 +15,55 @@ const Login = () => {
     const isLogged = localStorage.getItem('UserDetail');
     const notify = () => toast('Wow so easy!');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Inside handle submit');
-
-        axios
-            .post('http://localhost:3001/login', { email, password, rememberMe }) // Include rememberMe in the request
-            .then((result) => {
-                console.log("This is the result ",result);
-                if (result.data.status === 'success') {
-                    const jsonData = JSON.parse(result.config.data,result.data.accessToken);
-                    const jsonFormatter = JSON.stringify(jsonData, null, 2);
-
-                    localStorage.setItem('UserDetail', jsonFormatter);
-                    localStorage.setItem('accessToken', result.data.accessToken);
-                    toast.success('Logged in successfully');
-                    navigate('/');
-                    // window.location.reload();
-                } else {
-                    toast.error('Please check the email and password');
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-                toast.error('Login failed, Please give correct credentials');
+    const authenticateUser = async (userEmail, userPassword) => {
+        try {
+            const response = await axios.post('http://localhost:3001/login', {
+                userEmail,
+                userPassword,
+                rememberMe,
             });
+            console.log(JSON.parse(response.config.data))
+            if (response.data.status === 'success') {
+                const userData = {
+                    userEmail,
+                    password,
+                };
+
+                const jsonData = JSON.parse(response.config.data);
+                const jsonFormatter = JSON.stringify(jsonData, null, 2);
+                localStorage.setItem('UserDetail', jsonFormatter);
+                if(rememberMe){
+                    localStorage.setItem('accessToken',response.data.accessToken);
+
+                }
+                
+                const expirationTime = new Date(new Date().getTime() + 60000);
+                Cookies.set('auth', JSON.stringify(userData), { expires: expirationTime });
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error('Login failed, Please give correct credentials');
+            return false;
+        }
     };
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        const isAuthenticated = await authenticateUser(email, password);
+
+        console.log(isAuthenticated);
+
+        if (isAuthenticated) {
+            toast.success('Logged in successfully');
+            navigate('/');
+            // location.reload();
+        } else {
+            toast.error('Login failed, wrong password or email');
+        }
+    };
+
 
     useEffect(() => {
         if (isLogged) {
@@ -51,7 +75,7 @@ const Login = () => {
         <div className="container mt-5">
             <Card className="shadow col-md-5 mx-auto ">
                 <h1 className="m-4">Login</h1>
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleLogin}>
                     <Form.Group>
                         <div className="row">
                             <label htmlFor="email" className="col-md-6 mt-2">
