@@ -9,8 +9,7 @@ body {
     margin: 0px;
     padding: 0px;
     overflow-x: hidden;
-    /* overflow-y: hidden; */
-    background: linear-gradient(to right, #010E27, #022449, #010E28);
+    background-color: #F5ECD7 !important;
     font-family: 'Poppins', sans-serif;
     font-family: 'Quicksand', sans-serif;
     
@@ -125,10 +124,7 @@ video {
 
 
 .myNav{
-    /* background: #0575E6;  fallback for old browsers */
-    /* background: -webkit-linear-gradient(to right, #021B79, #0575E6); */
-      /* Chrome 10-25, Safari 5.1-6 */
-    background-image: linear-gradient(to bottom, rgba(255, 0, 0, 0) 100%);
+background-color: #c2baa6;
    
     
 }
@@ -142,7 +138,7 @@ video {
 @media (max-width:991px) {
 
     body {
-        background: linear-gradient(to right, #030205, #070712, #030207);
+        background: #F5ECD7;
     }
 
     video {

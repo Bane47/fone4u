@@ -67,8 +67,7 @@
     margin: 0 5px;
   }
   .myback{
-    background-color: #88C63E;
-
+    background: linear-gradient(to right, #eb9c64, #ff8789);
   }
   .page-link {
     padding: 10px;
@@ -111,3 +110,18 @@
     overflow: auto;
   } */
   
+  /* =================new================ */
+
+
+  #main-side{
+    height: 90vh !important;
+    margin-top: 4em;
+  }
+
+
+  @media (max-width:575px){
+    #main-side{
+        height: 10% !important;
+        /* background-color: #88C63E !important; */
+    }
+}

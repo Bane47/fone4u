@@ -12,15 +12,23 @@ const Register = () => {
     const [password, setPassword] = useState();
     const [cPassword, setCpassword] = useState();
     const [phone, setPhone] = useState();
+    const [role, setRole] = useState();
     const navigate = useNavigate();
     const isLogged = localStorage.getItem("UserDetail");
+    const handleRoleValue = (e) => {
+        setRole(e.target.value);
+    }
 
     const emailRegEx = /^[A-Za-z0-9.]+@gmail.com$/;
     const passRegEx = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/;
     const phoneRegEx = /^[6-9]{1}[0-9]{9}$/;
 
     const registerValidate = (e) => {
-       e.preventDefault();
+        e.preventDefault();
+        if (!role) {
+            toast.error("Please select the user type");
+            return;
+        }
         if (name === "") {
             toast.error("Please enter the name");
         }
@@ -44,36 +52,37 @@ const Register = () => {
         }
 
         else if (!phoneRegEx.test(phone)) {
-            toast.error("Please enter a valid PHONE id");
+            toast.error("Please enter a valid phone number");
         }
 
         else if (password !== cPassword) {
             toast.error("Password and the confirm password do not match");
         } else {
-            axios.post('http://localhost:3001/register', { name, email, password, phone })
+            axios.post('http://localhost:3001/register', { name, email, password, phone, role })
                 .then((result) => {
                     console.log(result);
+                    toast.success("Account created successfully")
                     navigate("/login")
                 })
                 .catch(error => console.log(error));
         }
 
     }
-    
-    useEffect(()=>{
-        if(isLogged){
+
+    useEffect(() => {
+        if (isLogged) {
             navigate('/dashboard')
         }
-    },[navigate])
+    }, [navigate])
 
     return (
-        <div className='container mt-5'>
-            <Card className='shadow col-lg-5 mx-auto'>
-                <h1 className='m-4'>Register</h1>
+        <div className='container mt-5 pt-5' >
+            <Card className='shadow col-lg-5 mx-auto  ' style={{ maxHeight: '560px', overflowY: 'auto', overflowX: 'hidden' }}>
+                <h1 className='m-4  '>Register</h1>
                 <Form onSubmit={registerValidate}>
                     <Form.Group id="exampleForm.ControlInput1">
                         <div className='row'>
-                            <label htmlFor="name" className='col-lg-6 col-md-6 col-sm-6 mt-2'>Name</label>
+                            <label htmlFor="name" className='col-lg-6 col-md-6 col-sm-6 mt-2 ps-5 '>Name</label>
                             <div className="col-lg-5 col-md-5 col-sm-5 m-2">
                                 <Form.Control size="md" className='main-input' type="text" placeholder="Name" value={name} onChange={(e) => { setName(e.target.value) }} />
                             </div>
@@ -81,7 +90,7 @@ const Register = () => {
                     </Form.Group>
                     <Form.Group id="exampleForm.ControlInput1">
                         <div className='row'>
-                            <label htmlFor="email" className='col-lg-6 col-md-6 col-sm-6 mt-2'>E-mail</label>
+                            <label htmlFor="email" className='col-lg-6 col-md-6 col-sm-6 mt-2 ps-5'>E-mail</label>
                             <div className="col-lg-5 col-md-5 col-sm-5 m-2">
                                 <Form.Control type="email" className='main-input' placeholder="Email" value={email} onChange={(e) => { setEmail(e.target.value) }} />
                             </div>
@@ -89,7 +98,7 @@ const Register = () => {
                     </Form.Group>
                     <Form.Group id="exampleForm.ControlInput1">
                         <div className='row'>
-                            <label htmlFor="Password" className='col-lg-6 col-md-6 col-sm-6 mt-2'>Password</label>
+                            <label htmlFor="Password" className='col-lg-6 col-md-6 col-sm-6 mt-2 ps-5'>Password</label>
                             <div className="col-lg-5 col-md-5 col-sm-5 m-2">
                                 <Form.Control className='main-input'
                                     type="password"
@@ -103,10 +112,10 @@ const Register = () => {
                     </Form.Group>
                     <Form.Group id="exampleForm.ControlInput1">
                         <div className='row'>
-                            <label htmlFor="Password" className='col-lg-6 col-md-6 col-sm-6 mt-2'>Confirm Password</label>
+                            <label htmlFor="Password" className='col-lg-6 col-md-6 col-sm-6 mt-2 ps-5'>Confirm Password</label>
                             <div className="col-lg-5 col-md-5 col-sm-5 m-2">
                                 <Form.Control
-                                className='main-input'
+                                    className='main-input'
                                     type="password"
                                     id="confirmpassword"
                                     aria-describedby="passwordHelpBlock"
@@ -118,10 +127,10 @@ const Register = () => {
                     </Form.Group>
                     <Form.Group id="exampleForm.ControlInput1" className='pb-5'>
                         <div className='row'>
-                            <label htmlFor="Phone" className='col-lg-6 col-md-6 col-sm-6 mt-2'>Phone</label>
+                            <label htmlFor="Phone" className='col-lg-6 col-md-6 col-sm-6 mt-2 ps-5'>Phone</label>
                             <div className="col-lg-5 col-md-5 col-sm-5 m-2">
                                 <Form.Control
-                                className='main-input'
+                                    className='main-input'
                                     type="text"
                                     id="phone"
                                     aria-describedby="passwordHelpBlock"
@@ -131,11 +140,21 @@ const Register = () => {
                             </div>
                         </div>
                     </Form.Group>
+                    <div className='col-6 mx-auto mb-3'>
+                        <Form.Select aria-label="Default select example" onChange={(e)=>handleRoleValue(e)}>
+                            <option>Select Role</option>
+                            <option value="User">User</option>
+                            <option value="Admin">Admin</option>
+                        </Form.Select>
+                    </div>
 
-                    <button className='btn btn-primary mb-5' type='submit'>Submit</button>
+                    <div className=' d-flex justify-content-center'>
+                        <button className='btn btn-primary mb-5 ' type='submit'>Submit</button>
+                    </div>
                     <p className='mb-5'>Already have an account? <Link to="/login" className='text-decoration-none'>Login!</Link></p>
                 </Form>
             </Card>
+            <ToastContainer />
         </div>
 
 

@@ -16,7 +16,7 @@ const ForgotPassword = () => {
       toast.success("Email sent to your mail ID!")
     }).catch((error)=>{
       console.log(error);
-      toast.error("Problem in sending email")
+      toast.error("User not found!")
     })
   }
 

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Pagination from 'react-bootstrap/Pagination';
 import AddModel from '../Modal/AddModel';
 import { ToastContainer, toast } from 'react-toastify';
+import '../Styles/manage.css'
 
 const Manage = () => {
   const [phonesData, setPhonesData] = useState([]);
@@ -97,7 +98,7 @@ const Manage = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className='mt-4'>
+    <div className='mt-5 pt-5' id='main-manage'>
       <ToastContainer />
 
       <div className='row col-sm-2 mx-2 ms-auto mb-2'>
@@ -116,47 +117,47 @@ const Manage = () => {
       </div>
 
       <div className='row container '>
-        <div className='col-lg-10 mb-2'>
-          <h1 className='text-white'>Manage Phones</h1>
+        <div className='col-lg-10 '>
+          <h1 className='text-black'>Manage Phones</h1>
         </div>
         <div className='col-lg-2'>
-          <Button variant="info" className='rounded-5' onClick={handleShowAddModel}>
+          <button id='add-button' className='rounded-5 text-black py-1 px-3 ' onClick={handleShowAddModel}>Add 
             <i className="fa-solid fa-plus"></i>
-          </Button>
+          </button>
           <AddModel show={showAddModel} handleClose={handleCloseAddModel} />
         </div>
       </div>
       <Table responsive="sm">
         <thead>
           <tr>
-            <th className='text-white'>Name</th>
-            <th className='text-white'>RAM</th>
-            <th className='text-white'>Camera</th>
-            <th className='text-white'>Storage</th>
-            <th className='text-white'>Display</th>
-            <th className='text-white'>Price</th>
-            <th className='text-white'>Edit</th>
-            <th className='text-white'>Delete</th>
+            <th className='text-black'>Name</th>
+            <th className='text-black'>RAM</th>
+            <th className='text-black'>Camera</th>
+            <th className='text-black'>Storage</th>
+            <th className='text-black'>Display</th>
+            <th className='text-black'>Price</th>
+            <th className='text-black'>Edit</th>
+            <th className='text-black'>Delete</th>
           </tr>
         </thead>
         <tbody>
           {currentPhones.map((phone) => (
             <tr key={phone._id}>
-              <td className='text-white'>{phone.name}</td>
-              <td className='text-white'>{phone.ram}</td>
-              <td className='text-white'>{phone.camera}</td>
-              <td className='text-white'>{phone.storage}</td>
-              <td className='text-white'>{phone.display}</td>
-              <td className='text-white'>{phone.price}</td>
+              <td className='text-black'>{phone.name}</td>
+              <td className='text-black'>{phone.ram}</td>
+              <td className='text-black'>{phone.camera}</td>
+              <td className='text-black'>{phone.storage}</td>
+              <td className='text-black'>{phone.display}</td>
+              <td className='text-black'>{phone.price}</td>
               <td>
-                <Button variant="warning" onClick={() => handleShowEditModal(phone)}>
+                <button id='edit-btn' className='px-5 py-1' onClick={() => handleShowEditModal(phone)}>
                   Edit
-                </Button>
+                </button>
               </td>
               <td>
-                <Button variant="danger" onClick={() => handleDeleteModal(phone._id)}>
+                <button id='delete-btn' className='px-3 py-1' onClick={() => handleDeleteModal(phone._id)}>
                   Delete
-                </Button>
+                </button>
               </td>
             </tr>
           ))}

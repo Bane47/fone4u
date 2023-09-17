@@ -35,7 +35,7 @@ const Profile = () => {
 
   return (
     <div>
-      <h1 className='text-white'>Profile Settings</h1>
+      <h1 className='text-white mt-5 pt-5'>Profile Settings</h1>
       <img className='circle-image mt-5' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv3pi17LQ7Uf2j8B9P8YYsN36S6dfFC6CcjqVAy3cHyK8vrC9H3QYiSSfAVmy-1LeI5_0&usqp=CAU" alt="Image" />
       {userDetails && (
         <div className='row container mt-5 pt-5'>

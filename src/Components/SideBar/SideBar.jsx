@@ -4,7 +4,7 @@
 
 // const SideBar = () => {
 //   const user = JSON.parse(localStorage.getItem('UserDetail'));
-  
+
 //   // State to manage text color
 //   const [textColor, setTextColor] = useState('white');
 
@@ -45,21 +45,30 @@ import "../Styles/SideBar.css";
 
 const SideBar = () => {
   const user = JSON.parse(localStorage.getItem("UserDetail"));
+  const role = localStorage.Role;
+
 
   return (
-    <div className="sidebar myback  min-vh-100 bg-black">
-   
-      <ul>
+    <div className="sidebar myback" id="main-side">
+
+      <ul className="position-fixed text-start ms-5 pt-3">
         <li>
           <NavLink exact to="/phones" ClassName="active-link">
-          Phones
+            Phones
           </NavLink>
         </li>
         <li>
-          <NavLink to="/manage" ClassName="active-link">
-            Manage
+          <NavLink exact to="/dashboard" ClassName="active-link">
+            Dashboard
           </NavLink>
         </li>
+        {role === "Admin" && (
+          <li>
+            <NavLink to="/manage" ClassName="active-link">
+              Manage
+            </NavLink>
+          </li>
+        )}
         <li>
           <NavLink to="/profile" ClassName="active-link">
             Profile

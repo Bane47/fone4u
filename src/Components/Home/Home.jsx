@@ -5,16 +5,7 @@ const Home = () => {
   return (
     <div className='container-fluid'>
         <div className='row'>
-        <div class="section">
-        <video playsinline autoplay muted loop poster="" id="home-bg-video">
-            <source src="../Assets/videos/symbyote.mp4" type="video/mp4" />           
-        </video>
-    </div>
-    <div class="section-2">
-        <video playsinline autoplay muted loop poster="" id="home-bg-video">
-            <source src="./Assets/videos/symbyote4.mp4" type="video/mp4" />
-        </video>
-    </div>
+        
 
 
     <section class="banner-content">

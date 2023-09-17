@@ -11,34 +11,68 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false); // New state for "Remember me" checkbox
+    const [role, setRole] = useState();
     const navigate = useNavigate();
     const isLogged = localStorage.getItem('UserDetail');
     const notify = () => toast('Wow so easy!');
 
+
     const authenticateUser = async (userEmail, userPassword) => {
+
         try {
             const response = await axios.post('http://localhost:3001/login', {
                 userEmail,
                 userPassword,
                 rememberMe,
             });
-            console.log(JSON.parse(response.config.data))
+            console.log("Im inside the auth login");
+
+            console.log(response.data.user.role)
             if (response.data.status === 'success') {
                 const userData = {
                     userEmail,
-                    password,
+                    password
                 };
 
+                const encodedValue = userData;
+
+                if (typeof encodedValue === 'string') {
+                    const cleanedString = encodedValue.replace(/^\{|\}$/g, '');
+
+                    const decodedString = decodeURIComponent(cleanedString);
+
+
+
+                    try {
+                        const jsonObject = JSON.parse(decodedString);
+                        console.log(jsonObject);
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                    }
+
+                    // Now, you can work with the JSON object
+                    console.log(jsonObject);
+                } else {
+                    console.error('encodedValue is not a string.');
+                }
+
+
+
+                console.log("THis is the data", response.config.data)
                 const jsonData = JSON.parse(response.config.data);
                 const jsonFormatter = JSON.stringify(jsonData, null, 2);
                 localStorage.setItem('UserDetail', jsonFormatter);
-                if(rememberMe){
-                    localStorage.setItem('accessToken',response.data.accessToken);
+                localStorage.setItem('Role',response.data.user.role);
+                
+                if (rememberMe) {
+                    localStorage.setItem('accessToken', response.data.accessToken);
 
                 }
-                
-                const expirationTime = new Date(new Date().getTime() + 60000);
-                Cookies.set('auth', JSON.stringify(userData), { expires: expirationTime });
+
+                // const expirationTime = new Date(new Date().getTime() + (30 * 24 * 60 * 60 * 1000));
+                const cook = Cookies.set('auth', JSON.stringify(userData), { expires: 30 });
+                const accessCookie = Cookies.set('accessToken',JSON.stringify(response.data.accessToken))
+               
                 return true;
             } else {
                 return false;
@@ -58,7 +92,7 @@ const Login = () => {
         if (isAuthenticated) {
             toast.success('Logged in successfully');
             navigate('/');
-            // location.reload();
+            location.reload();
         } else {
             toast.error('Login failed, wrong password or email');
         }
@@ -66,13 +100,20 @@ const Login = () => {
 
 
     useEffect(() => {
+        const remMe = localStorage.getItem('UserDetail') === true;
+        setRememberMe(remMe);
+
+
+
+
+
         if (isLogged) {
             navigate('/dashboard');
         }
     }, [navigate]);
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-5 pt-5">
             <Card className="shadow col-md-5 mx-auto ">
                 <h1 className="m-4">Login</h1>
                 <Form onSubmit={handleLogin}>
@@ -114,6 +155,7 @@ const Login = () => {
                             </div>
                         </div>
                     </Form.Group>
+
                     <div className="row">
                         <div className="col-sm-8">
                             <span>Remember me</span>

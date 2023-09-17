@@ -1,10 +1,10 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Card, ListGroup, Pagination } from 'react-bootstrap'
-
+import '../Styles/phones.css'
 const Phones = () => {
 const [phonesData,setPhonesData] = useState([]);
-const phonesPerPage = 5;
+const phonesPerPage = 8;
 const [currentPage,setCurrentPage] = useState(1);
   useEffect(()=>{
     axios.get("http://localhost:3001/getPhones")
@@ -30,7 +30,7 @@ const [currentPage,setCurrentPage] = useState(1);
     }
   };
   return (
-    <div className='container mt-5'>
+    <div className='container mt-5 pt-3'>
       <div className='row justify-content-center'>
         <h1 className='text-white'>Phones</h1>
         
@@ -38,14 +38,14 @@ const [currentPage,setCurrentPage] = useState(1);
         {currentPhones.length > 0 && (
           <>
           {currentPhones.map((data)=>(
-        <Card key={data._id} className='col-md-2 col-sm-3 col-8 mx-5 my-5'>
+        <Card key={data._id} className='col-md-2 col-sm-3  mx-5 my-5 p-0' id="phones-card" >
       
-      <Card.Img variant="top"  src="https://images.unsplash.com/photo-1616348436168-de43ad0db179?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGlwaG9uZXxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80" />
+      <Card.Img variant="top" className='p-0 card' src="https://images.unsplash.com/photo-1616348436168-de43ad0db179?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGlwaG9uZXxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80" />
       
-      <Card.Body>
+      <Card.Body className='card-img-overlay text-start p-1'>
         
-        <Card.Title>{data.name}</Card.Title>
-
+        <span> <b>{data.name}</b></span>
+<br />
         <span>Price : {data.price}</span>
 
       </Card.Body>
@@ -56,7 +56,7 @@ const [currentPage,setCurrentPage] = useState(1);
     )}
     </>
 
-    <div className='row mt-5 pt-5'>
+    <div className='row '>
   <div className='col-12 d-flex justify-content-center '>
     <Pagination>
       <Pagination.Prev onClick={handlePreviousPage} />
