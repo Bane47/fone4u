@@ -134,7 +134,7 @@ const Manage = () => {
             <th className='text-black'>RAM</th>
             <th className='text-black'>Camera</th>
             <th className='text-black'>Storage</th>
-            <th className='text-black'>Display</th>
+            <th className='text-black'>Image</th>
             <th className='text-black'>Price</th>
             <th className='text-black'>Edit</th>
             <th className='text-black'>Delete</th>
@@ -147,7 +147,7 @@ const Manage = () => {
               <td className='text-black'>{phone.ram}</td>
               <td className='text-black'>{phone.camera}</td>
               <td className='text-black'>{phone.storage}</td>
-              <td className='text-black'>{phone.display}</td>
+              <td className='text-black'> <img src={phone.image} className='phone-image' alt="" /></td>
               <td className='text-black'>{phone.price}</td>
               <td>
                 <button id='edit-btn' className='px-5 py-1' onClick={() => handleShowEditModal(phone)}>

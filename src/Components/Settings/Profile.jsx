@@ -11,7 +11,7 @@ const Profile = () => {
   const userObj = JSON.parse(user);
   console.log(userObj)
   const [userDetails, setUserDetails] = useState(null);
-  const [selectedUser,setSelectedUser] = useState();
+  const [selectedUser, setSelectedUser] = useState();
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -34,30 +34,25 @@ const Profile = () => {
   }, []);
 
   return (
-    <div>
-      <h1 className='text-white mt-5 pt-5'>Profile Settings</h1>
+    <div className='pro-main'>
+      <h1 className='text-black  mt-5 pt-5'>Profile Settings</h1>
       <img className='circle-image mt-5' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv3pi17LQ7Uf2j8B9P8YYsN36S6dfFC6CcjqVAy3cHyK8vrC9H3QYiSSfAVmy-1LeI5_0&usqp=CAU" alt="Image" />
       {userDetails && (
-        <div className='row container mt-5 pt-5'>
-          <div className='col-6 text-md-end '>
-            <h1 className='text-white'>Name : </h1>
-            <h1 className='text-white'>Email : </h1>
-            <h1 className='text-white'>Phone : </h1>
-          </div>
-          <div className='col-6 text-start'>
-            <h1 className='text-white'>{userDetails.name}</h1>
-            <h1 className='text-white'>{userDetails.email}</h1>
-            <h1 className='text-white'>{userDetails.phone}</h1>
+        <div className='row container mt-5 pt-5 justify-content-center'>
+          <div className='col-md-8 text-center'>
+          <h1 className='text-black profile-editables'><label htmlFor=""><h1>Name : </h1></label> {userDetails.name}</h1>
+          <h1 className='text-black profile-editables'><label htmlFor=""><h1>Email : </h1></label> {userDetails.email}</h1>
+          <h1 className='text-black profile-editables'><label htmlFor=""><h1>Phone : </h1></label> {userDetails.phone}</h1>
           </div>
         </div>
       )}
       <div>
-        <Button className='col-lg-3 mt-5 ' onClick={()=>{handleProfileEdit(userDetails._id);console.log(userDetails._id)}}>
+        <button className='col-lg-2 mt-5 profile-edit-button p-3' onClick={() => { handleProfileEdit(userDetails._id); console.log(userDetails._id) }}>
           Edit Profile <i className="fa-solid fa-pencil"> </i>
-        </Button>
+        </button>
       </div>
       {selectedUser && (
-      <EditModel show={show} onHide={handleClose} user={userDetails}  />
+        <EditModel show={show} onHide={handleClose} user={userDetails} />
       )}
     </div>
   );

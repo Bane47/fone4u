@@ -12,7 +12,7 @@ const Register = () => {
     const [password, setPassword] = useState();
     const [cPassword, setCpassword] = useState();
     const [phone, setPhone] = useState();
-    const [role, setRole] = useState();
+    const [role, setRole] = useState('User');
     const navigate = useNavigate();
     const isLogged = localStorage.getItem("UserDetail");
     const handleRoleValue = (e) => {
@@ -25,10 +25,7 @@ const Register = () => {
 
     const registerValidate = (e) => {
         e.preventDefault();
-        if (!role) {
-            toast.error("Please select the user type");
-            return;
-        }
+
         if (name === "") {
             toast.error("Please enter the name");
         }
@@ -64,10 +61,29 @@ const Register = () => {
                     toast.success("Account created successfully")
                     navigate("/login")
                 })
-                .catch(error => console.log(error));
+                .catch(error => {console.log(error.response.data.error);
+                if(error.response.data.error==="Duplicate Email"){
+                    toast.error("This email already exists");
+                }
+                });
         }
 
     }
+
+    const convertToBase64 = (e) => {
+        var reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0])
+        reader.onload = () => {
+            console.log(reader.result);
+            setImage(reader.result);
+        };
+        reader.onerror = error => {
+            console.log("error ", error);
+        }
+    }
+
+    const [image, setImage] = useState("");
+
 
     useEffect(() => {
         if (isLogged) {
@@ -93,6 +109,14 @@ const Register = () => {
                             <label htmlFor="email" className='col-lg-6 col-md-6 col-sm-6 mt-2 ps-5'>E-mail</label>
                             <div className="col-lg-5 col-md-5 col-sm-5 m-2">
                                 <Form.Control type="email" className='main-input' placeholder="Email" value={email} onChange={(e) => { setEmail(e.target.value) }} />
+                            </div>
+                        </div>
+                    </Form.Group>
+                    <Form.Group controlId="exampleForm.ControlInput1">
+                        <div className='row'>
+                            <label className='col-lg-6 col-md-6 col-sm-6 mt-2'>Image</label>
+                            <div className="col-lg-5 col-md-5 col-sm-5 m-2">
+                                <Form.Control accept="image/*" type="file" placeholder="Enter the processor name" onChange={convertToBase64} />
                             </div>
                         </div>
                     </Form.Group>
@@ -140,13 +164,6 @@ const Register = () => {
                             </div>
                         </div>
                     </Form.Group>
-                    <div className='col-6 mx-auto mb-3'>
-                        <Form.Select aria-label="Default select example" onChange={(e)=>handleRoleValue(e)}>
-                            <option>Select Role</option>
-                            <option value="User">User</option>
-                            <option value="Admin">Admin</option>
-                        </Form.Select>
-                    </div>
 
                     <div className=' d-flex justify-content-center'>
                         <button className='btn btn-primary mb-5 ' type='submit'>Submit</button>

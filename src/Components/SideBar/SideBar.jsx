@@ -57,11 +57,11 @@ const SideBar = () => {
             Phones
           </NavLink>
         </li>
-        <li>
+        {/* <li>
           <NavLink exact to="/dashboard" ClassName="active-link">
             Dashboard
           </NavLink>
-        </li>
+        </li> */}
         {role === "Admin" && (
           <li>
             <NavLink to="/manage" ClassName="active-link">
@@ -74,6 +74,13 @@ const SideBar = () => {
             Profile
           </NavLink>
         </li>
+        {role === "User" && (
+          <li>
+            <NavLink to="/feedback" ClassName="active-link">
+              Feedback
+            </NavLink>
+          </li>
+        )}
       </ul>
     </div>
   );

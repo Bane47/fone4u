@@ -7,3 +7,9 @@
 #add-button{
     background-color: #346145 !important;
 }
+
+.phone-image{
+height: 80px;
+width: 80px;
+border-radius: 50%;
+}

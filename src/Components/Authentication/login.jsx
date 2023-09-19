@@ -17,7 +17,7 @@ const Login = () => {
     const notify = () => toast('Wow so easy!');
 
 
-    const authenticateUser = async (userEmail, userPassword) => {
+    const authenticateUser = async (userEmail, userPassword, rememberMe) => {
 
         try {
             const response = await axios.post('http://localhost:3001/login', {
@@ -25,36 +25,34 @@ const Login = () => {
                 userPassword,
                 rememberMe,
             });
-            console.log("Im inside the auth login");
 
-            console.log(response.data.user.role)
             if (response.data.status === 'success') {
                 const userData = {
                     userEmail,
                     password
                 };
 
-                const encodedValue = userData;
+                // const encodedValue = userData;
 
-                if (typeof encodedValue === 'string') {
-                    const cleanedString = encodedValue.replace(/^\{|\}$/g, '');
+                // if (typeof encodedValue === 'string') {
+                //     const cleanedString = encodedValue.replace(/^\{|\}$/g, '');
 
-                    const decodedString = decodeURIComponent(cleanedString);
+                //     const decodedString = decodeURIComponent(cleanedString);
 
 
 
-                    try {
-                        const jsonObject = JSON.parse(decodedString);
-                        console.log(jsonObject);
-                    } catch (error) {
-                        console.error('Error parsing JSON:', error);
-                    }
+                //     try {
+                //         const jsonObject = JSON.parse(decodedString);
+                //         console.log(jsonObject);
+                //     } catch (error) {
+                //         console.error('Error parsing JSON:', error);
+                //     }
 
-                    // Now, you can work with the JSON object
-                    console.log(jsonObject);
-                } else {
-                    console.error('encodedValue is not a string.');
-                }
+                //     // Now, you can work with the JSON object
+                //     console.log(jsonObject);
+                // } else {
+                //     console.error('encodedValue is not a string.');
+                // }
 
 
 
@@ -85,7 +83,7 @@ const Login = () => {
     };
     const handleLogin = async (e) => {
         e.preventDefault();
-        const isAuthenticated = await authenticateUser(email, password);
+        const isAuthenticated = await authenticateUser(email, password, rememberMe);
 
         console.log(isAuthenticated);
 
@@ -93,17 +91,13 @@ const Login = () => {
             toast.success('Logged in successfully');
             navigate('/');
             location.reload();
-        } else {
-            toast.error('Login failed, wrong password or email');
-        }
+        } 
     };
 
 
     useEffect(() => {
         const remMe = localStorage.getItem('UserDetail') === true;
         setRememberMe(remMe);
-
-
 
 
 

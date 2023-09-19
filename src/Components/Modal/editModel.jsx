@@ -65,7 +65,8 @@ function EditModel({ user, show, onHide }) {
       .then((result) => {
         console.log(result);
         toast.success("Successfully changed the password");
-        navigate('/profile');        
+        localStorage.removeItem('UserDetail')
+        navigate('/login');        
       })
       .catch((err) => {
         console.log(err);

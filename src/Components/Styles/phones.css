@@ -1,6 +1,7 @@
 .card-img-overlay span{
     background-color: rgba(240, 248, 255, 0.587);
     font-size: small;
+    color: black;
 
 }
 
@@ -10,4 +11,9 @@
 
 #phones-card{
     width: 10em;
+}
+
+.showcase-image{
+    height: 200px;
+    width: 200px;
 }
