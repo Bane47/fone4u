@@ -20,7 +20,7 @@ function MyNavbar() {
                 <img src="https://preview.webpixels.io/web/img/logos/clever-light.svg" class="h-8" alt="..." />
             </a>
             */}
-          <Link className='text-decoration-none nav-item nav-link mx-2' to='/'>Fone4U</Link>
+          <Link className='text-decoration-none nav-item nav-link mx-2' to='/'><h3 className='fone4u-title'>Fone4U</h3></Link>
           {/* {store && (
                 <Link className='text-decoration-none nav-item nav-link mx-2' to='/dashboard'>Explore</Link>
               )} */}

@@ -53,8 +53,8 @@ const SideBar = () => {
 
       <ul className="position-fixed text-start ms-5 pt-3">
         <li>
-          <NavLink exact to="/phones" ClassName="active-link">
-            Phones
+          <NavLink exact to="/phones" >
+            <p ClassName="sidebar-link text-black ">Phones</p>
           </NavLink>
         </li>
         {/* <li>
@@ -64,19 +64,19 @@ const SideBar = () => {
         </li> */}
         {role === "Admin" && (
           <li>
-            <NavLink to="/manage" ClassName="active-link">
+            <NavLink to="/manage" ClassName="sidebar-link ">
               Manage
             </NavLink>
           </li>
         )}
         <li>
-          <NavLink to="/profile" ClassName="active-link">
+          <NavLink to="/profile" ClassName="sidebar-link">
             Profile
           </NavLink>
         </li>
         {role === "User" && (
           <li>
-            <NavLink to="/feedback" ClassName="active-link">
+            <NavLink to="/feedback" ClassName="sidebar-link">
               Feedback
             </NavLink>
           </li>

@@ -6,11 +6,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../Styles/login.css';
 import Cookies from 'js-cookie'
+import jwt_decode from 'jwt-decode'
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false); // New state for "Remember me" checkbox
+    const [rememberMe, setRememberMe] = useState(true); // New state for "Remember me" checkbox
     const [role, setRole] = useState();
     const navigate = useNavigate();
     const isLogged = localStorage.getItem('UserDetail');
@@ -32,45 +33,34 @@ const Login = () => {
                     password
                 };
 
-                // const encodedValue = userData;
-
-                // if (typeof encodedValue === 'string') {
-                //     const cleanedString = encodedValue.replace(/^\{|\}$/g, '');
-
-                //     const decodedString = decodeURIComponent(cleanedString);
 
 
 
-                //     try {
-                //         const jsonObject = JSON.parse(decodedString);
-                //         console.log(jsonObject);
-                //     } catch (error) {
-                //         console.error('Error parsing JSON:', error);
-                //     }
-
-                //     // Now, you can work with the JSON object
-                //     console.log(jsonObject);
-                // } else {
-                //     console.error('encodedValue is not a string.');
-                // }
-
-
-
-                console.log("THis is the data", response.config.data)
                 const jsonData = JSON.parse(response.config.data);
                 const jsonFormatter = JSON.stringify(jsonData, null, 2);
+                console.log(response.config.data)
+
+
                 localStorage.setItem('UserDetail', jsonFormatter);
-                localStorage.setItem('Role',response.data.user.role);
-                
+                localStorage.setItem('Role', response.data.user.role);
+
                 if (rememberMe) {
+                    localStorage.setItem("rememberMe", true)
                     localStorage.setItem('accessToken', response.data.accessToken);
+                    localStorage.setItem("password", jsonData.userPassword);
+                    Cookies.set('password', jsonData.userPassword);
+
+                } else {
+                    localStorage.removeItem("rememberMe");
+                    localStorage.removeItem("password");
+                    Cookies.remove("password");
 
                 }
 
                 // const expirationTime = new Date(new Date().getTime() + (30 * 24 * 60 * 60 * 1000));
                 const cook = Cookies.set('auth', JSON.stringify(userData), { expires: 30 });
-                const accessCookie = Cookies.set('accessToken',JSON.stringify(response.data.accessToken))
-               
+                const accessCookie = Cookies.set('accessToken', JSON.stringify(response.data.accessToken))
+
                 return true;
             } else {
                 return false;
@@ -91,15 +81,27 @@ const Login = () => {
             toast.success('Logged in successfully');
             navigate('/');
             location.reload();
-        } 
+        }
     };
 
 
     useEffect(() => {
-        const remMe = localStorage.getItem('UserDetail') === true;
+        const remMe = localStorage.getItem('rememberMe') === true;
         setRememberMe(remMe);
 
+        const token = Cookies.get("accessToken");
+        console.log(token, remMe)
+        if (remMe && token) {
+            try {
+                setPassword(localStorage.getItem('password'))
+                console.log(localStorage.getItem('password'))
+            } catch (error) {
+                console.log(error)
 
+            }
+            console.log("Im inside the try block")
+
+        }
 
         if (isLogged) {
             navigate('/dashboard');
@@ -107,9 +109,10 @@ const Login = () => {
     }, [navigate]);
 
     return (
-        <div className="container mt-5 pt-5">
-            <Card className="shadow col-md-5 mx-auto ">
+        <div className="container mt-5 pt-5 ">
+            <Card className="shadow col-md-5 mx-auto login-body">
                 <h1 className="m-4">Login</h1>
+                {console.log(password)}
                 <Form onSubmit={handleLogin}>
                     <Form.Group>
                         <div className="row">
@@ -155,7 +158,7 @@ const Login = () => {
                             <span>Remember me</span>
                         </div>
                         <div className="col-sm-1">
-                            <Form.Check
+                            <Form.Check id='check-btn'
                                 aria-label="option 1"
                                 checked={rememberMe} // Bind "checked" attribute to the state
                                 onChange={(e) => {
@@ -166,7 +169,7 @@ const Login = () => {
                     </div>
                     <ToastContainer />
 
-                    <button className="btn btn-primary mt-4 mb-5" type="submit">
+                    <button className="submit-btn mb-5 text-white rounded-3 px-3 py-1 mt-3" type="submit">
                         Submit!
                     </button>
                     <p>

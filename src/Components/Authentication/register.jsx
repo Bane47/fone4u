@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import '../Styles/login.css'
+import '../Styles/register.css';
 
 
 const Register = () => {
@@ -18,6 +18,8 @@ const Register = () => {
     const handleRoleValue = (e) => {
         setRole(e.target.value);
     }
+    const [image, setImage] = useState("");
+
 
     const emailRegEx = /^[A-Za-z0-9.]+@gmail.com$/;
     const passRegEx = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/;
@@ -55,7 +57,7 @@ const Register = () => {
         else if (password !== cPassword) {
             toast.error("Password and the confirm password do not match");
         } else {
-            axios.post('http://localhost:3001/register', { name, email, password, phone, role })
+            axios.post('http://localhost:3001/register', { name, email, password, phone, role ,image})
                 .then((result) => {
                     console.log(result);
                     toast.success("Account created successfully")
@@ -82,7 +84,6 @@ const Register = () => {
         }
     }
 
-    const [image, setImage] = useState("");
 
 
     useEffect(() => {
@@ -92,9 +93,9 @@ const Register = () => {
     }, [navigate])
 
     return (
-        <div className='container mt-5 pt-5' >
-            <Card className='shadow col-lg-5 mx-auto  ' style={{ maxHeight: '560px', overflowY: 'auto', overflowX: 'hidden' }}>
-                <h1 className='m-4  '>Register</h1>
+        <div className='container mt-5 overflow-bar' >
+            <Card className='shadow col-lg-5  mx-auto login-body ' style={{ maxHeight: '500px', overflowY: 'auto', overflowX: 'hidden' }}>
+                <h1 className='m-4'>Register</h1>
                 <Form onSubmit={registerValidate}>
                     <Form.Group id="exampleForm.ControlInput1">
                         <div className='row'>
@@ -166,7 +167,7 @@ const Register = () => {
                     </Form.Group>
 
                     <div className=' d-flex justify-content-center'>
-                        <button className='btn btn-primary mb-5 ' type='submit'>Submit</button>
+                        <button className='submit-btn mb-5 text-white rounded-3 px-3 py-1 ' type='submit'>Submit</button>
                     </div>
                     <p className='mb-5'>Already have an account? <Link to="/login" className='text-decoration-none'>Login!</Link></p>
                 </Form>

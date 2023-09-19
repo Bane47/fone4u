@@ -18,6 +18,8 @@ function MyModal(props) {
         display: props.phone.display,
         price: props.phone.price,
       });
+      const [image, setImage] = useState("");
+
 
   const updateFormData = (field, value) => {
     setFormData({
@@ -40,6 +42,7 @@ function MyModal(props) {
         storage,
         display,
         price,
+        image
       })
       .then((result) => {
         console.log('Response Data:', result.data);
@@ -51,6 +54,18 @@ function MyModal(props) {
       });
   };
 
+
+  const convertToBase64 = (e) => {
+    var reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0])
+    reader.onload = () => {
+        console.log(reader.result);
+        setImage(reader.result);
+    };
+    reader.onerror = error => {
+        console.log("error ", error);
+    }
+}
 
 
   useEffect(() => {
@@ -94,6 +109,15 @@ function MyModal(props) {
               </div>
             </div>
           </Form.Group>
+          <Form.Group controlId="exampleForm.ControlInput1">
+                            <div className='row'>
+                                <label className='col-lg-6 col-md-6 col-sm-6 mt-2'>Image</label>
+                                <div className="col-lg-5 col-md-5 col-sm-5 m-2">
+                                    <Form.Control accept="image/*" type="file" placeholder="Enter the processor name" onChange={convertToBase64} />
+                                </div>
+                                {console.log(image)}
+                            </div>
+                        </Form.Group>
           <Form.Group controlId="exampleForm.ControlInput1">
             <div className="row">
               <label className="col-lg-6 col-md-6 col-sm-6 mt-2">Processor</label>

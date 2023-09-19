@@ -13,3 +13,12 @@ height: 80px;
 width: 80px;
 border-radius: 50%;
 }
+
+.head-title{
+    font-family: 'Syne', sans-serif;
+}
+
+.manage-body{
+    font-weight: 600;
+    font-size: larger;
+}

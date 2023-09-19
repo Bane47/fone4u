@@ -18,7 +18,9 @@ function EditModel({ user, show, onHide }) {
   const [newPassword,setNewPassword] = useState('')
   const [changePassword, setChangePassword] = useState(false);
   const [confirmPassword,setConfirmPassword] = useState('');
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [image, setImage] = useState("");
+
 
   const updatedFormData = (key, value) => {
     setFormData({
@@ -35,7 +37,8 @@ function EditModel({ user, show, onHide }) {
       .put(`http://localhost:3001/edit-account/${formData.id}`, {
         name,
         email,
-        phone
+        phone,
+        image
       })
       .then((result) => {
         console.log(result);
@@ -72,6 +75,18 @@ function EditModel({ user, show, onHide }) {
         console.log(err);
       });
   };
+  
+  const convertToBase64 = (e) => {
+    var reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0])
+    reader.onload = () => {
+        console.log(reader.result);
+        setImage(reader.result);
+    };
+    reader.onerror = error => {
+        console.log("error ", error);
+    }
+}
 
   return (
     <>
@@ -101,7 +116,14 @@ function EditModel({ user, show, onHide }) {
                         </div>
                       </div>
                     </Form.Group>
-                   
+                    <Form.Group controlId="exampleForm.ControlInput1">
+                        <div className='row'>
+                            <label className='col-lg-6 col-md-6 col-sm-6 mt-2'>Image</label>
+                            <div className="col-lg-5 col-md-5 col-sm-5 m-2">
+                                <Form.Control accept="image/*" type="file" placeholder="Enter the processor name" onChange={convertToBase64} />
+                            </div>
+                        </div>
+                    </Form.Group>
                     <Form.Group >
                       <div className="row">
                         <label className="col-lg-6 col-md-6 col-sm-6 mt-2 text-black">Phone </label>

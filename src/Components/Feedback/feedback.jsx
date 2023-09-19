@@ -90,8 +90,6 @@
 
 // export default Feedback;
 
-
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import '../Styles/feedback.css'
@@ -99,7 +97,7 @@ import '../Styles/feedback.css'
 const Feedback = () => {
   const [message, setMessage] = useState("");
   const [receivedMessage, setReceivedMessage] = useState([]);
-
+  const user = localStorage.getItem('UserDetail')
   const sendMessage = (e) => {
     e.preventDefault();
     const data = { message };

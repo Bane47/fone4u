@@ -24,10 +24,13 @@
 }
 
 .profile-edit-button {
-  background-color: #dd6236;
+  background-color: #26A69A;
 
 }
+.profile-edit-button:hover{
+  background-color: #68b6ae;
 
+}
 .profile-editables {
   font-size: 28px;
 }

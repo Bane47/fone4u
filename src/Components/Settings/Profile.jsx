@@ -36,8 +36,13 @@ const Profile = () => {
   return (
     <div className='pro-main'>
       <h1 className='text-black  mt-5 pt-5'>Profile Settings</h1>
-      <img className='circle-image mt-5' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv3pi17LQ7Uf2j8B9P8YYsN36S6dfFC6CcjqVAy3cHyK8vrC9H3QYiSSfAVmy-1LeI5_0&usqp=CAU" alt="Image" />
+
       {userDetails && (
+        <>
+        <div>
+          {console.log(userDetails)}
+      <img className='circle-image mt-5' src={userDetails.image} alt="Image" />
+     
         <div className='row container mt-5 pt-5 justify-content-center'>
           <div className='col-md-8 text-center'>
           <h1 className='text-black profile-editables'><label htmlFor=""><h1>Name : </h1></label> {userDetails.name}</h1>
@@ -45,6 +50,8 @@ const Profile = () => {
           <h1 className='text-black profile-editables'><label htmlFor=""><h1>Phone : </h1></label> {userDetails.phone}</h1>
           </div>
         </div>
+        </div>
+        </>
       )}
       <div>
         <button className='col-lg-2 mt-5 profile-edit-button p-3' onClick={() => { handleProfileEdit(userDetails._id); console.log(userDetails._id) }}>

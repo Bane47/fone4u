@@ -101,54 +101,63 @@ const Manage = () => {
     <div className='mt-5 pt-5' id='main-manage'>
       <ToastContainer />
 
-      <div className='row col-sm-2 mx-2 ms-auto mb-2'>
-        <div className='col-sm-2 mt-1'>
-          <i className="fa-solid fa-magnifying-glass"></i>
-        </div>
-        <div className='col-sm-10'>
-          <Form.Control
-            type="text"
-            placeholder="Search"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            size="sm"
-          />
-        </div>
-      </div>
+      <div className='row  mx-2 ms-auto mb-2'>
 
-      <div className='row container '>
-        <div className='col-lg-10 '>
-          <h1 className='text-black'>Manage Phones</h1>
+       
+
+        <div className='col-sm-2 d-flex flex-row'>
+          <div className='col-2 mt-1'>
+            <i className="fa-solid fa-magnifying-glass"></i>
+          </div>
+
+          <div className='col-10'>
+            <Form.Control
+              type="text"
+              placeholder="Search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              size="sm"
+            />
+          </div>
+
+
+          
         </div>
-        <div className='col-lg-2'>
-          <button id='add-button' className='rounded-5 text-black py-1 px-3 ' onClick={handleShowAddModel}>Add 
+        <div className='col-8 '>
+          <h1 className='text-black head-title'>Manage Phones</h1>
+        </div>
+
+        <div className='col-2'>
+          <button id='add-button' className='rounded-5 text-black py-1 px-3 ' onClick={handleShowAddModel}>Add
             <i className="fa-solid fa-plus"></i>
           </button>
           <AddModel show={showAddModel} handleClose={handleCloseAddModel} />
         </div>
       </div>
+
+
       <Table responsive="sm">
         <thead>
           <tr>
-            <th className='text-black'>Name</th>
-            <th className='text-black'>RAM</th>
-            <th className='text-black'>Camera</th>
-            <th className='text-black'>Storage</th>
-            <th className='text-black'>Image</th>
-            <th className='text-black'>Price</th>
-            <th className='text-black'>Edit</th>
-            <th className='text-black'>Delete</th>
+            <th className='text-black fs-5'><b>Name</b></th>
+            <th className='text-black fs-5'><b>RAM</b></th>
+            <th className='text-black fs-5'><b>Camera</b></th>
+            <th className='text-black fs-5'><b>Storage</b></th>
+            <th className='text-black fs-5'><b>Image</b></th>
+            <th className='text-black fs-5'><b>Price</b></th>
+            <th className='text-black fs-5'><b>Edit</b></th>
+            <th className='text-black fs-5'><b>Delete</b></th>
           </tr>
         </thead>
         <tbody>
           {currentPhones.map((phone) => (
             <tr key={phone._id}>
-              <td className='text-black'>{phone.name}</td>
-              <td className='text-black'>{phone.ram}</td>
-              <td className='text-black'>{phone.camera}</td>
-              <td className='text-black'>{phone.storage}</td>
-              <td className='text-black'> <img src={phone.image} className='phone-image' alt="" /></td>
-              <td className='text-black'>{phone.price}</td>
+              <td className='text-black fs-6'>{phone.name}</td>
+              <td className='text-black fs-6'>{phone.ram}</td>
+              <td className='text-black fs-6'>{phone.camera}</td>
+              <td className='text-black fs-6'>{phone.storage}</td>
+              <td className='text-black fs-6'> <img src={phone.image} className='phone-image' alt="" /></td>
+              <td className='text-black fs-6'>{phone.price}</td>
               <td>
                 <button id='edit-btn' className='px-5 py-1' onClick={() => handleShowEditModal(phone)}>
                   Edit
