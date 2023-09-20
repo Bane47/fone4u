@@ -16,6 +16,8 @@ import ForgotPassword from './Components/ForgotPassword/ForgotPassword';
 import ResetPassword from './Components/ResetPassword/ResetPassword';
 import UserDashBoard from './Components/Dashboard/userDashBoard';
 import Feedback from './Components/Feedback/feedback';
+import AdminFeedBack from './Components/Feedback/adminFeedBack';
+import ErrorPage from './Components/404 error/404error';
 
 
 function App() {
@@ -30,6 +32,7 @@ function App() {
           <MyNavbar />
 
           <div className='row '>
+            
             {isLogged ? (
               <>
                 <div className='col-12 col-sm-3 col-lg-2 '>
@@ -42,6 +45,7 @@ function App() {
                     <Route path='/login' element={<Login />} />
                     <Route path='/phones' element={<Phones />} />
                     <Route path='/dashboard' element={<UserDashBoard />} />
+                    <Route path='/*' element={<ErrorPage />} />
 
 
                     {role === "Admin" && (
@@ -49,13 +53,14 @@ function App() {
                         <Route path='/manage' element={<Manage />} />
                         <Route path='/addphones' element={<AddPhone />} />
                         <Route path='/dashboard' element={<Dashboard />} />
+                        <Route path='/AdminFeedBack' element={<AdminFeedBack />} />
+
                       </>
                     )}
 
                     {role === "User" && (
                       <>
-                        <Route path='/feedback' element={<Feedback />} />
-                       
+                        <Route path='/feedback' element={<Feedback />} />                      
                       </>
                     )}
                     <Route path='/profile' element={<Profile />} />
@@ -70,11 +75,14 @@ function App() {
                 <div className='col-12 col-sm-12 mt-5 pt-5 min-vh-100 overflow-hidden '>
                   <Routes>
                     <Route path='/' element={<Home />} />
+                    <Route path='/dashboard' element={<ErrorPage />} />
                     <Route path='/register' element={<Register />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/profile' element={<Profile />} />
                     <Route path='/ForgotPassword' element={<ForgotPassword />} />
                     <Route path='/password-reset/:id/:token' element={<ResetPassword />} />
+                    <Route path='/*' element={<ErrorPage />} />
+
                   </Routes>
                 </div></>)}
 

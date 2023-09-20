@@ -34,21 +34,25 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className='pro-main'>
+    <div className='pro-main text-start'>
       <h1 className='text-black  mt-5 pt-5'>Profile Settings</h1>
 
       {userDetails && (
         <>
-        <div>
+        <div className='row'>
           {console.log(userDetails)}
-      <img className='circle-image mt-5' src={userDetails.image} alt="Image" />
-     
-        <div className='row container mt-5 pt-5 justify-content-center'>
-          <div className='col-md-8 text-center'>
-          <h1 className='text-black profile-editables'><label htmlFor=""><h1>Name : </h1></label> {userDetails.name}</h1>
-          <h1 className='text-black profile-editables'><label htmlFor=""><h1>Email : </h1></label> {userDetails.email}</h1>
-          <h1 className='text-black profile-editables'><label htmlFor=""><h1>Phone : </h1></label> {userDetails.phone}</h1>
+     <div className='col-sm-9'>
+        <div className='row  mt-5 pt-5 text-start'>
+          <div className='col-md-7 text-start'>
+          <h1 className='text-black profile-editables mt-2'><label htmlFor=""><h3>Name : </h3></label> {userDetails.name}</h1>
+          <h1 className='text-black profile-editables mt-2'><label htmlFor=""><h3>Email : </h3></label> {userDetails.email}</h1>
+          <h1 className='text-black profile-editables mt-2'><label htmlFor=""><h3>Phone : </h3></label> {userDetails.phone}</h1>
           </div>
+        </div>
+        </div>
+        <div className='col-sm-2'>
+        <img className='circle-image mt-5' src={userDetails.image} alt="Image" />
+
         </div>
         </div>
         </>

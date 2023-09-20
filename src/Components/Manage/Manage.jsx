@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import Pagination from 'react-bootstrap/Pagination';
 import AddModel from '../Modal/AddModel';
 import { ToastContainer, toast } from 'react-toastify';
-import '../Styles/manage.css'
+import '../Styles/manage.css';
 
 const Manage = () => {
   const [phonesData, setPhonesData] = useState([]);
@@ -14,9 +14,10 @@ const Manage = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedPhone, setSelectedPhone] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const phonesPerPage = 3; // Number of phones to display per page
+  const phonesPerPage = 3; // Number of phones to display per page (changed to 3)
   const [showAddModel, setShowAddModel] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('name'); // Default category is 'name'
 
   const handleCloseEditModal = () => setShowEditModal(false);
   const handleShowEditModal = (phone) => {
@@ -30,11 +31,11 @@ const Manage = () => {
   };
 
   const handleShowAddModel = () => {
-    setShowAddModel(true)
+    setShowAddModel(true);
   };
 
   const handleCloseAddModel = () => {
-    setShowAddModel(false)
+    setShowAddModel(false);
   };
 
   const handleDelete = async () => {
@@ -77,7 +78,7 @@ const Manage = () => {
   };
 
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(filteredPhonesData.length / phonesPerPage)) {
+    if (currentPage < Math.ceil(phonesData.length / phonesPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -89,46 +90,71 @@ const Manage = () => {
   // Calculate the indexes for the current page
   const indexOfLastPhone = currentPage * phonesPerPage;
   const indexOfFirstPhone = indexOfLastPhone - phonesPerPage;
-  const filteredPhonesData = phonesData.filter((phone) =>
-    phone.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+
+  // Modify the filter function based on the selected category
+  const filteredPhonesData = phonesData.filter((phone) => {
+    if (selectedCategory === 'name') {
+      return phone.name.toLowerCase().includes(searchTerm.toLowerCase());
+    } else if (selectedCategory === 'ram') {
+      return phone.ram.toLowerCase().includes(searchTerm.toLowerCase());
+    } else if (selectedCategory === 'camera') {
+      return phone.camera.toLowerCase().includes(searchTerm.toLowerCase());
+    } else if (selectedCategory === 'storage') {
+      return phone.storage.toLowerCase().includes(searchTerm.toLowerCase());
+    }
+    // Add more categories as needed
+    return true; // By default, return true to include the item
+  });
+
+  // Get the phones to display on the current page
   const currentPhones = filteredPhonesData.slice(indexOfFirstPhone, indexOfLastPhone);
 
   // Change the current page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className='mt-5 pt-5' id='main-manage'>
+    <div className='mt-5 pt-5 head-title' id='main-manage'>
       <ToastContainer />
 
-      <div className='row  mx-2 ms-auto mb-2'>
-
-       
-
+      <div className='row mx-2 ms-auto mb-2'>
         <div className='col-sm-2 d-flex flex-row'>
           <div className='col-2 mt-1'>
             <i className="fa-solid fa-magnifying-glass"></i>
           </div>
-
-          <div className='col-10'>
-            <Form.Control
-              type="text"
-              placeholder="Search"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              size="sm"
-            />
+          <div className='col-12 row'>
+            <div className='col-11'>
+              <Form.Control
+                type="text"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                size="sm"
+              />
+            </div>
+            <div className='col-12'>
+              <Form.Group className='col-sm-10  d-flex flex-row'>
+                <Form.Control
+                  as='select'
+                  value={selectedCategory}
+                  size="sm"
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                >
+                  <option disabled>Search By</option>
+                  <option value='name'>Name</option>
+                  <option value='ram'>RAM</option>
+                  <option value='camera'>Camera</option>
+                  <option value='storage'>Storage</option>
+                </Form.Control>
+              </Form.Group>
+            </div>
           </div>
-
-
-          
         </div>
-        <div className='col-8 '>
+        <div className='col-8'>
           <h1 className='text-black head-title'>Manage Phones</h1>
         </div>
-
         <div className='col-2'>
-          <button id='add-button' className='rounded-5 text-black py-1 px-3 ' onClick={handleShowAddModel}>Add
+          <button id='add-button' className='rounded-5 text-black py-1 px-3' onClick={handleShowAddModel}>
+            Add
             <i className="fa-solid fa-plus"></i>
           </button>
           <AddModel show={showAddModel} handleClose={handleCloseAddModel} />
@@ -136,17 +162,19 @@ const Manage = () => {
       </div>
 
 
+
+
       <Table responsive="sm">
         <thead>
           <tr>
-            <th className='text-black fs-5'><b>Name</b></th>
-            <th className='text-black fs-5'><b>RAM</b></th>
-            <th className='text-black fs-5'><b>Camera</b></th>
-            <th className='text-black fs-5'><b>Storage</b></th>
-            <th className='text-black fs-5'><b>Image</b></th>
-            <th className='text-black fs-5'><b>Price</b></th>
-            <th className='text-black fs-5'><b>Edit</b></th>
-            <th className='text-black fs-5'><b>Delete</b></th>
+            <th className='text-black fs-6'><b>Name</b></th>
+            <th className='text-black fs-6'><b>RAM</b></th>
+            <th className='text-black fs-6'><b>Camera</b></th>
+            <th className='text-black fs-6'><b>Storage</b></th>
+            <th className='text-black fs-6'><b>Image</b></th>
+            <th className='text-black fs-6'><b>Price</b></th>
+            <th className='text-black fs-6'><b>Edit</b></th>
+            <th className='text-black fs-6'><b>Delete</b></th>
           </tr>
         </thead>
         <tbody>
@@ -173,17 +201,26 @@ const Manage = () => {
         </tbody>
       </Table>
 
-      <div className='row mt-5 pt-5'>
+      <div className='row mt-5 pt-5 '>
         <div className='col-12 d-flex justify-content-center '>
           <Pagination>
-            <Pagination.Prev onClick={handlePreviousPage} />
+            {currentPage !== 1 ? (
+              <Pagination.Prev onClick={handlePreviousPage} />
+            ) : (
+              <Pagination.Prev onClick={handlePreviousPage} disabled />
+            )}
             {Array.from({ length: Math.ceil(filteredPhonesData.length / phonesPerPage) }).map((_, index) => (
-              <Pagination.Item key={index} active={index + 1 === currentPage} onClick={() => paginate(index + 1)}>
+              <Pagination.Item key={index} activee={index + 1 === currentPage} onClick={() => paginate(index + 1)}>
                 <p className='text-black'> {index + 1}</p>
               </Pagination.Item>
             ))}
-            <Pagination.Next onClick={handleNextPage} />
+            {currentPage === Math.ceil(filteredPhonesData.length / phonesPerPage) ? (
+              <Pagination.Next onClick={handleNextPage} disabled />
+            ) : (
+              <Pagination.Next onClick={handleNextPage} />
+            )}
           </Pagination>
+          <h6 className='mt-3 '>Page: {currentPage} / {Math.ceil(filteredPhonesData.length / phonesPerPage)}</h6>
         </div>
       </div>
 

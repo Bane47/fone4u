@@ -29,7 +29,7 @@
 
 .myback {
   /* background: #f5f5f5; */
-  background: #cdfaf6;
+  background: #263339;
   border-right: .1em solid white;
   font-family: 'Syne', sans-serif;
   color: aquamarine !important;
@@ -38,7 +38,7 @@
 .page-link {
   padding: 10px;
   background-color: #fff;
-  color: #007bff;
+  color: white !important;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -49,18 +49,35 @@
   display: none;
 }
 
+.inactivee {
+  color: #fff;
+  text-decoration: none;
+font-size: large;
+
+}
+.inactivee:hover {
+  background-color: lightgrey;
+  text-decoration: none;
+  padding: .2em 2em;
+    border-radius: 4px;
+}
+
+
+.active {
+  color: #263339;
+  text-decoration: none;
+  background-color: lightgray;
+  padding: .2em 2em;
+  border-radius: 4px;
+}
+
 /* 
   .page-item.previous .page-link,
   .page-item.next .page-link {
     font-weight: bold;
   } */
 
-.active {
-  /* background-color: lightgrey; */
-  color: #263339;
-  /* padding: .3em 2em;
-    border-radius: 4px; */
-}
+
 
 .page-link:hover {
   background-color: lightgray;

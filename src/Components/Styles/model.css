@@ -1,0 +1,13 @@
+.model-submit,.edit-pro-model{
+    background-color: #26A69A;
+}
+.model-submit:hover{
+    background-color: #408d86;
+}
+.model-change{
+    background-color: #728f9e;
+    color: white;
+}
+.model-change:hover{
+    background-color: #263339;
+}

@@ -16,10 +16,12 @@ const Login = () => {
     const navigate = useNavigate();
     const isLogged = localStorage.getItem('UserDetail');
     const notify = () => toast('Wow so easy!');
-
+    const [decryptedEmail,setDecryptedEmail] = useState();
+    const [showPassword,setShowPassword] = useState(false);
 
     const authenticateUser = async (userEmail, userPassword, rememberMe) => {
 
+        console.log(userEmail,"ALL ")
         try {
             const response = await axios.post('http://localhost:3001/login', {
                 userEmail,
@@ -32,8 +34,6 @@ const Login = () => {
                     userEmail,
                     password
                 };
-
-
 
 
                 const jsonData = JSON.parse(response.config.data);
@@ -53,6 +53,7 @@ const Login = () => {
                 } else {
                     localStorage.removeItem("rememberMe");
                     localStorage.removeItem("password");
+                    localStorage.removeItem("accessToken")
                     Cookies.remove("password");
 
                 }
@@ -84,17 +85,26 @@ const Login = () => {
         }
     };
 
+    const showPass=()=>{
+        var x = document.getElementById("inputPassword5");
+        if(x.type==="password"){
+            x.type="text";
+        }else{
+            x.type="password"
+        }
+    }
 
     useEffect(() => {
-        const remMe = localStorage.getItem('rememberMe') === true;
+        const remMe = localStorage.getItem('rememberMe');
         setRememberMe(remMe);
 
-        const token = Cookies.get("accessToken");
-        console.log(token, remMe)
+        const token = localStorage.getItem("accessToken");
+        const emailToken = jwt_decode(token)
         if (remMe && token) {
             try {
                 setPassword(localStorage.getItem('password'))
-                console.log(localStorage.getItem('password'))
+                console.log(emailToken)
+                setEmail(emailToken.email)
             } catch (error) {
                 console.log(error)
 
@@ -154,10 +164,12 @@ const Login = () => {
                     </Form.Group>
 
                     <div className="row">
-                        <div className="col-sm-8">
+                        <div className='col-6'>
+                            <div className='row'>
+                        <div className="col-sm-8 text-end">
                             <span>Remember me</span>
                         </div>
-                        <div className="col-sm-1">
+                        <div className="col-sm-2">
                             <Form.Check id='check-btn'
                                 aria-label="option 1"
                                 checked={rememberMe} // Bind "checked" attribute to the state
@@ -165,6 +177,25 @@ const Login = () => {
                                     setRememberMe(e.target.checked); // Update the state when the checkbox changes
                                 }}
                             />
+                        </div>
+                        </div>
+                        </div>
+                        <div className='col-6'>
+                            <div className='row'>
+                        <div className="col-sm-8 text-end">
+                            <span>Show password</span>
+                        </div>
+                        <div className="col-sm-2">
+                            <Form.Check id='check-btn'
+                                aria-label="option 1"
+                                checked={showPassword} // Bind "checked" attribute to the state
+                                onChange={(e) => {
+                                    setShowPassword(e.target.checked); // Update the state when the checkbox changes
+                                }}
+                                onClick={()=>showPass()}
+                            />
+                        </div>
+                        </div>
                         </div>
                     </div>
                     <ToastContainer />

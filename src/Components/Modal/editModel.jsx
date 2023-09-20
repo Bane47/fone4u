@@ -5,6 +5,7 @@ import { Form } from 'react-bootstrap';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import '../Styles/model.css'
 
 function EditModel({ user, show, onHide }) {
   const [formData, setFormData] = useState({
@@ -92,12 +93,12 @@ function EditModel({ user, show, onHide }) {
     <>
       {formData && (
         <>
-          <Modal show={show} onHide={onHide}>
+          <Modal show={show} onHide={onHide} >
             <Modal.Header closeButton>
               <Modal.Title>Edit Profile</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-            <div style={{ maxHeight: '400px', overflowY: 'auto' , overflowX:'hidden' }}>
+            <Modal.Body >
+            <div style={{ maxHeight: '400px', overflowY: 'auto' , overflowX:'hidden' }} >
 
               <Form onSubmit={handleSubmit}>
                 {!changePassword && (
@@ -186,12 +187,12 @@ function EditModel({ user, show, onHide }) {
                 {!changePassword && (
                   <div className='row container'>
                     <div className='d-flex col-lg-6'>
-                      <button className="btn btn-warning mt-4 mb-5 mx-auto" type="button" onClick={() => setChangePassword(true)}>
+                      <button className="model-change py-2 px-5 mt-4 mb-5 mx-auto" type="button" onClick={() => setChangePassword(true)}>
                         Change Password
                       </button>
                     </div>
                     <div className='d-flex col-lg-6'>
-                      <button className="btn btn-primary mt-4 mb-5 mx-auto" type="submit">
+                      <button className="model-submit mt-4 mb-5 px-5 mx-auto" type="submit">
                         Submit!
                       </button>
                     </div>

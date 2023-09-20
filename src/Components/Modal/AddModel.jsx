@@ -95,7 +95,6 @@ function AddModel(props) {
                                 <div className="col-lg-5 col-md-5 col-sm-5 m-2">
                                     <Form.Control accept="image/*" type="file" placeholder="Enter the processor name" onChange={convertToBase64} />
                                 </div>
-                                {console.log(image)}
                             </div>
                         </Form.Group>
                         <Form.Group controlId="exampleForm.ControlInput1">

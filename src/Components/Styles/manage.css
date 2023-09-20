@@ -1,11 +1,28 @@
 #edit-btn{
-    background-color: #eb9c64;
+    background-color: #728f9e;
+    color: white;
+    border-radius: 2px;
+}
+#edit-btn:hover{
+    background-color: #263339;
+    color: white;
 }
 #delete-btn{
-    background-color: #ff8789;
+    background-color: #e1262a;
+    color: white;
+    border-radius: 2px;
+
+}
+#delete-btn:hover{
+    background-color: #ff0004;
+    color: white;
 }
 #add-button{
-    background-color: #346145 !important;
+    background-color: #26A69A !important;
+
+}
+#add-button:hover{
+    background-color: #80CBC4 !important;
 }
 
 .phone-image{
@@ -15,7 +32,7 @@ border-radius: 50%;
 }
 
 .head-title{
-    font-family: 'Syne', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .manage-body{

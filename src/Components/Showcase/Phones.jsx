@@ -49,7 +49,7 @@ const Phones = () => {
       <div className='row justify-content-center'>
         <div className='row'>
           <div className='col-7 text-end'>
-        <h1 className='text-black'>Phones</h1>
+        <h1 className='text-black head-title'>Phones</h1>
         </div>
         <div className='row col-sm-2 mx-2 ms-auto mb-2'>
           <div className='col-sm-2 mt-1'>
@@ -70,7 +70,7 @@ const Phones = () => {
         {currentPhones.length > 0 && (
           <>
             {currentPhones.map((data) => (
-              <div class="col-3 gy-5" key={data._id}>
+              <div class="col-3 gy-5 head-title" key={data._id}>
               <div class="card h-100 shadow-sm">
                   <div class="text-center">
 
@@ -109,19 +109,32 @@ const Phones = () => {
         )}
       </div>
 
-      <div className='row  fixed-bottom mb-5'>
+      <div className='row  fixed-bottom mb-5 pb-3'>
         <div className='col-12 d-flex justify-content-center '>
-          <Pagination>
-            <Pagination.Prev onClick={handlePreviousPage} />
+        <Pagination>
+            {currentPage !== 1 ? (
+              <Pagination.Prev onClick={handlePreviousPage} />
+            ) : (
+              <Pagination.Prev onClick={handlePreviousPage} disabled />
+
+            )}
             {Array.from({ length: Math.ceil(filteredPhones.length / phonesPerPage) }).map((_, index) => (
-              <Pagination.Item key={index} active={index + 1 === currentPage} onClick={() => paginate(index + 1)}>
+              <Pagination.Item key={index} activee={index + 1 === currentPage} onClick={() => paginate(index + 1)}>
                 <p className='text-black'> {index + 1}</p>
               </Pagination.Item>
             ))}
-            <Pagination.Next onClick={handleNextPage} />
+            {currentPage === Math.ceil(filteredPhones.length / phonesPerPage) ? (
+              <Pagination.Next onClick={handleNextPage} disabled />
+            ) : (
+              <Pagination.Next onClick={handleNextPage} />
+            )}
+
           </Pagination>
+
         </div>
       </div>
+      <h6 className='mt-2 mb-3 fixed-bottom'>Page: {currentPage} / {Math.ceil(filteredPhones.length / phonesPerPage)}</h6>
+
     </div>
   );
 }
