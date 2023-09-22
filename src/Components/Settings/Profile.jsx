@@ -51,7 +51,7 @@ const Profile = () => {
         </div>
         </div>
         <div className='col-sm-2'>
-        <img className='circle-image mt-5' src={userDetails.image} alt="Image" />
+        <img className='circle-image mt-5 ' src={userDetails.image} alt="Image" />
 
         </div>
         </div>

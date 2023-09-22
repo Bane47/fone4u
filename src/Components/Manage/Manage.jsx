@@ -122,7 +122,7 @@ const Manage = () => {
             <i className="fa-solid fa-magnifying-glass"></i>
           </div>
           <div className='col-12 row'>
-            <div className='col-11'>
+            <div className='col-11 actual-search mb-1'>
               <Form.Control
                 type="text"
                 placeholder="Search"
@@ -131,7 +131,7 @@ const Manage = () => {
                 size="sm"
               />
             </div>
-            <div className='col-12'>
+            <div className='col-12 search-by-category'>
               <Form.Group className='col-sm-10  d-flex flex-row'>
                 <Form.Control
                   as='select'

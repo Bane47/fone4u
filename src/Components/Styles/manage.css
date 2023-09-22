@@ -39,3 +39,10 @@ border-radius: 50%;
     font-weight: 600;
     font-size: larger;
 }
+
+.search-by-category{
+    width: 200px;
+}
+.actual-search{
+    width: 140px;
+}
